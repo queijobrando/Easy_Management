@@ -18,25 +18,19 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("categorias")
-public class CategoriaController {
+public class CategoriaController implements GenericController {
 
     @Autowired
     private CategoriaService categoriaService;
-
-    @Autowired
-    private CategoriaMapper categoriaMapper;
+    
 
     @PostMapping
     public ResponseEntity<CategoriaDtoRetorno> cadastrarCategoria(@RequestBody @Valid CategoriaDto dto){
-        Categorias categoria = categoriaService.cadastrarCategoria(dto);
+        CategoriaDtoRetorno categoria = categoriaService.cadastrarCategoria(dto);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(categoria.getId())
-                .toUri();
+        URI location = gerarHeaderLocation(categoria.id());
 
-        return ResponseEntity.created(location).body(categoriaMapper.toDto(categoria));
+        return ResponseEntity.created(location).body(categoria);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.estoque.gerenciador.management.easy.easymanagement.service;
 
 import com.estoque.gerenciador.management.easy.easymanagement.dto.categoria.CategoriaDto;
+import com.estoque.gerenciador.management.easy.easymanagement.dto.categoria.CategoriaDtoRetorno;
 import com.estoque.gerenciador.management.easy.easymanagement.mapper.CategoriaMapper;
 import com.estoque.gerenciador.management.easy.easymanagement.model.Categorias;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.CategoriaRepository;
@@ -18,11 +19,11 @@ public class CategoriaService {
     private CategoriaMapper categoriaMapper;
 
     @Transactional
-    public Categorias cadastrarCategoria(CategoriaDto dto){
+    public CategoriaDtoRetorno cadastrarCategoria(CategoriaDto dto){
         Categorias categoria = categoriaMapper.toEntity(dto);
         categoriaRepository.save(categoria);
 
-        return categoria;
+        return categoriaMapper.toDto(categoria);
     }
 
 }

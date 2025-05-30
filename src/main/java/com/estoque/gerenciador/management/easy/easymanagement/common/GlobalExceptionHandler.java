@@ -2,6 +2,7 @@ package com.estoque.gerenciador.management.easy.easymanagement.common;
 
 import com.estoque.gerenciador.management.easy.easymanagement.dto.exceptions.ErroCampo;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.exceptions.ErroResposta;
+import com.estoque.gerenciador.management.easy.easymanagement.exceptions.EntidadeNaoEncontradaException;
 import com.estoque.gerenciador.management.easy.easymanagement.exceptions.RegistroDuplicadoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -36,5 +37,12 @@ public class GlobalExceptionHandler {
     public ErroResposta handleRegistroDuplicadoException(RegistroDuplicadoException e) {
         return ErroResposta.conflito(e.getMessage());
     }
+
+    @ExceptionHandler(EntidadeNaoEncontradaException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErroResposta handleEntidadeNaoEncontrada(EntidadeNaoEncontradaException e) {
+        return ErroResposta.naoEncontrado(e.getMessage());
+    }
+
 
 }
