@@ -3,9 +3,9 @@ package com.estoque.gerenciador.management.easy.easymanagement.dto.categoria;
 import jakarta.validation.constraints.NotBlank;
 
 public record CategoriaDto(
-        @NotBlank
+        @NotBlank(message = "Campo Obrigatório")
         String nome,
-        @NotBlank
+        @NotBlank(message = "Campo Obrigatório")
         String descricao
 ) {
 }

@@ -32,8 +32,8 @@ public class Produto {
     @Column(name = "descricao", length = 100, nullable = false)
     private String descricao;
 
-    @ManyToOne
-    @JoinColumn(name = "categoria_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id", nullable = false)
     private Categorias categorias;
 
     @Column(name = "preco", precision = 18, scale = 2)

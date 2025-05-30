@@ -1,6 +1,5 @@
 package com.estoque.gerenciador.management.easy.easymanagement.dto.produto;
 
-import com.estoque.gerenciador.management.easy.easymanagement.model.Categorias;
 import com.estoque.gerenciador.management.easy.easymanagement.model.enuns.Unidade;
 
 import java.math.BigDecimal;
@@ -11,7 +10,7 @@ public record ProdutoDtoRetorno(
         String nome,
         String descricao,
         String codigo_de_barras,
-        Categorias categorias,
+        String categoria_nome,
         BigDecimal preco,
         Unidade unidade,
         Boolean perecivel,

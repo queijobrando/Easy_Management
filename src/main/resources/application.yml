@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: easymanagement
+  datasource:
+    url: jdbc:postgresql://localhost:5432/easymanagement
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
