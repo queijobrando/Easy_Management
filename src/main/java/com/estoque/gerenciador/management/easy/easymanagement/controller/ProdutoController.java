@@ -36,4 +36,10 @@ public class ProdutoController implements GenericController{
         ProdutoDtoRetorno produto = produtoService.buscarProdutoId(id);
         return ResponseEntity.ok(produto);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> desativarProduto(@PathVariable Long id){
+        produtoService.desativarProduto(id);
+        return ResponseEntity.ok("Produto desativado com Sucesso");
+    }
 }

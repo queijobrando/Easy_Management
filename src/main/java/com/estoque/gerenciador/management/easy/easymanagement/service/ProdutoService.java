@@ -47,4 +47,12 @@ public class ProdutoService {
 
         return produtoMapper.toDto(produto);
     }
+
+    @Transactional
+    public void desativarProduto(Long id){
+        Produto produto = produtoRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Produto não encontrado"));
+
+        produto.setAtivo(false);
+    }
 }
