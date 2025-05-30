@@ -15,7 +15,7 @@ public record ProdutoDto(
         Long categoria_id,
         @NotNull(message = "Campo Obrigatório")
         BigDecimal preco,
-        @NotBlank(message = "Campo Obrigatório")
+        @NotNull(message = "Campo Obrigatório")
         Unidade unidade,
         @NotNull(message = "Campo Obrigatório")
         Boolean perecivel
