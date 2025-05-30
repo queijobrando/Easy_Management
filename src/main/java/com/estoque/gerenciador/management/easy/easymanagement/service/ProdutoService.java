@@ -5,6 +5,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.mapper.ProdutoMapp
 import com.estoque.gerenciador.management.easy.easymanagement.model.Produto;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.CategoriaRepository;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.ProdutoRepository;
+import com.estoque.gerenciador.management.easy.easymanagement.service.validator.ProdutoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,14 +17,15 @@ public class ProdutoService {
     private ProdutoRepository produtoRepository;
 
     @Autowired
-    private CategoriaRepository categoriaRepository;
+    private ProdutoMapper produtoMapper;
 
     @Autowired
-    private ProdutoMapper produtoMapper;
+    private ProdutoValidator produtoValidator;
 
     @Transactional
     public Produto cadastrarProduto(ProdutoDto produtoDto){
         Produto produto = produtoMapper.toEntity(produtoDto);
+        produtoValidator.validar(produto);
         produtoRepository.save(produto);
 
         return produto;
