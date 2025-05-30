@@ -34,7 +34,7 @@ public class Produto {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id", nullable = false)
-    private Categorias categorias;
+    private Categorias categoria;
 
     @Column(name = "preco", precision = 18, scale = 2)
     private BigDecimal preco; //Melhor para preços
@@ -49,7 +49,7 @@ public class Produto {
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;
 
-    @Column(name = "ativo", nullable = false)
+    @Column(name = "perecivel", nullable = false)
     private Boolean perecivel;
 
     @CreatedDate

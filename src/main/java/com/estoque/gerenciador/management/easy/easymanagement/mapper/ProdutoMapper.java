@@ -14,10 +14,10 @@ public abstract class ProdutoMapper {
     @Autowired
     CategoriaRepository categoriaRepository;
 
-    @Mapping(target = "categorias", expression = "java(categoriaRepository.findById(produtoDto.categoria_id()).orElse(null))")
+    @Mapping(target = "categoria", expression = "java(categoriaRepository.findById(produtoDto.categoria_id()).orElse(null))")
     public abstract Produto toEntity(ProdutoDto produtoDto);
 
-    @Mapping(target = "categoria_nome", source = "categorias.nome")
+    @Mapping(target = "categoria_nome", source = "categoria.nome")
     public abstract ProdutoDtoRetorno toDto(Produto produto);
 
 }
