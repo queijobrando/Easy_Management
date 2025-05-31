@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("categorias")
@@ -32,6 +33,17 @@ public class CategoriaController implements GenericController {
         CategoriaDtoRetorno categoria = categoriaService.buscarCategoriaId(id);
         return ResponseEntity.ok(categoria);
     }
+
+    @GetMapping
+    public ResponseEntity<List<CategoriaDtoRetorno>> buscarPorExemplo(
+            @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "descricao", required = false) String descricao,
+            @RequestParam(value = "ativo", required = false) Boolean ativo
+    ){
+        List<CategoriaDtoRetorno> lista = categoriaService.pesquisarPorExample(nome, descricao, ativo);
+        return ResponseEntity.ok(lista);
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> desativarCategoria(@PathVariable Long id){

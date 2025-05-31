@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("produtos")
@@ -36,6 +37,18 @@ public class ProdutoController implements GenericController{
         ProdutoDtoRetorno produto = produtoService.buscarProdutoId(id);
         return ResponseEntity.ok(produto);
     }
+
+    @GetMapping
+    public ResponseEntity<List<ProdutoDtoRetorno>> buscarPorExemplo(
+            @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "descricao", required = false) String descricao,
+            @RequestParam(value = "categoria_id", required = false)Long categoria,
+            @RequestParam(value = "ativo", required = false) Boolean ativo
+    ){
+        List<ProdutoDtoRetorno> lista = produtoService.pesquisarPorExample(nome, descricao, categoria, ativo);
+        return ResponseEntity.ok(lista);
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> desativarProduto(@PathVariable Long id){

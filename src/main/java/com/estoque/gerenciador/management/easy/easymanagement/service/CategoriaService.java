@@ -8,8 +8,12 @@ import com.estoque.gerenciador.management.easy.easymanagement.model.Categorias;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.CategoriaRepository;
 import com.estoque.gerenciador.management.easy.easymanagement.service.validator.CategoriaValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class CategoriaService {
@@ -37,6 +41,26 @@ public class CategoriaService {
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Categoria não encontrada"));
 
         return categoriaMapper.toDto(categorias);
+    }
+
+    public List<CategoriaDtoRetorno> pesquisarPorExample(String nome, String descricao, Boolean ativo){
+        var categoria = new Categorias();
+        categoria.setNome(nome);
+        categoria.setDescricao(descricao);
+        categoria.setAtivo(ativo);
+
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreNullValues()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        return categoriaRepository
+                .findAll(Example.of(categoria, matcher))
+                .stream()
+                .map(categoriaMapper::toDto)
+                .toList();
+
     }
 
     @Transactional

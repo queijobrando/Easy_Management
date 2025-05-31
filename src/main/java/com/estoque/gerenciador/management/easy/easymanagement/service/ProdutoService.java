@@ -9,9 +9,12 @@ import com.estoque.gerenciador.management.easy.easymanagement.repository.Categor
 import com.estoque.gerenciador.management.easy.easymanagement.repository.ProdutoRepository;
 import com.estoque.gerenciador.management.easy.easymanagement.service.validator.ProdutoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,6 +50,29 @@ public class ProdutoService {
 
         return produtoMapper.toDto(produto);
     }
+
+    public List<ProdutoDtoRetorno> pesquisarPorExample(String nome, String descricao, Long categoria, Boolean ativo){
+        var produto = new Produto();
+        produto.setNome(nome);
+        produto.setDescricao(descricao);
+        produto.setCategoria(categoriaRepository.findById(categoria)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("A Categoria inserida não existe")));
+        produto.setAtivo(ativo);
+
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreNullValues()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        return produtoRepository
+                .findAll(Example.of(produto, matcher))
+                .stream()
+                .map(produtoMapper::toDto)
+                .toList();
+
+    }
+
 
     @Transactional
     public void desativarProduto(Long id){
