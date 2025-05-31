@@ -54,5 +54,6 @@ public class ProdutoService {
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Produto não encontrado"));
 
         produto.setAtivo(false);
+        produtoRepository.save(produto);
     }
 }

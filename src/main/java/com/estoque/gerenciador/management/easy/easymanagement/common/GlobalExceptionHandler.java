@@ -2,6 +2,7 @@ package com.estoque.gerenciador.management.easy.easymanagement.common;
 
 import com.estoque.gerenciador.management.easy.easymanagement.dto.exceptions.ErroCampo;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.exceptions.ErroResposta;
+import com.estoque.gerenciador.management.easy.easymanagement.exceptions.DesativarCategoriaException;
 import com.estoque.gerenciador.management.easy.easymanagement.exceptions.EntidadeNaoEncontradaException;
 import com.estoque.gerenciador.management.easy.easymanagement.exceptions.RegistroDuplicadoException;
 import org.springframework.http.HttpStatus;
@@ -44,5 +45,10 @@ public class GlobalExceptionHandler {
         return ErroResposta.naoEncontrado(e.getMessage());
     }
 
+    @ExceptionHandler(DesativarCategoriaException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErroResposta handleDesativarCategoriaException(DesativarCategoriaException e) {
+        return ErroResposta.respostaPadrao(e.getMessage());
+    }
 
 }
