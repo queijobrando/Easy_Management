@@ -9,36 +9,37 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "categorias")
+@Table(name = "estoque_lotes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Categorias {
+public class EstoqueLotes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome", length = 80, nullable = false, unique = true)
-    private String nome;
+    @ManyToOne
+    @JoinColumn(name = "produto_id", nullable = false)
+    private Produto produto;
 
-    @Column(name = "descricao", length = 20, nullable = false)
-    private String descricao; //aumentar o length
+    @Column(name = "quantidade_lote", nullable = false)
+    private Integer quantidade_lote;
 
-    @Column(name = "ativo", nullable = false)
-    private Boolean ativo;
+    @Column(name = "validade")
+    private LocalDate validade;
 
-    @OneToMany(mappedBy = "categoria")
-    private List<Produto> produtos;
+    @Column(name = "codigo_de_barras", length = 20, nullable = false, unique = true)
+    private String codigo_de_barras;
 
     @CreatedDate
     @Column(name = "data_cadastro")
-    private LocalDateTime data_cadastro;
+    private LocalDate data_cadastro;
 
     @LastModifiedDate
     @Column(name = "data_atualizacao")
@@ -46,6 +47,6 @@ public class Categorias {
 
     @PrePersist
     public void gerarCamposAutomaticos(){
-        this.ativo = true;
+        this.codigo_de_barras = this.codigo_de_barras = CodigoBarrasUtil.gerarEAN13();
     }
 }

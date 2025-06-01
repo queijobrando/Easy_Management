@@ -4,6 +4,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.dto.exceptions.Err
 import com.estoque.gerenciador.management.easy.easymanagement.dto.exceptions.ErroResposta;
 import com.estoque.gerenciador.management.easy.easymanagement.exceptions.DesativarCategoriaException;
 import com.estoque.gerenciador.management.easy.easymanagement.exceptions.EntidadeNaoEncontradaException;
+import com.estoque.gerenciador.management.easy.easymanagement.exceptions.MovimentacaoInvalidaException;
 import com.estoque.gerenciador.management.easy.easymanagement.exceptions.RegistroDuplicadoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -48,6 +49,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DesativarCategoriaException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErroResposta handleDesativarCategoriaException(DesativarCategoriaException e) {
+        return ErroResposta.respostaPadrao(e.getMessage());
+    }
+
+    @ExceptionHandler(MovimentacaoInvalidaException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErroResposta handleMovimentacaoInvalidaException(MovimentacaoInvalidaException e) {
         return ErroResposta.respostaPadrao(e.getMessage());
     }
 
