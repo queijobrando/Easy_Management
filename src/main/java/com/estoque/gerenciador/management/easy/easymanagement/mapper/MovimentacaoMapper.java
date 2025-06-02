@@ -20,21 +20,20 @@ public abstract class MovimentacaoMapper {
     @Autowired
     protected EstoqueLotesRepository estoqueLotesRepository;
 
-    @Mapping(target = "produto", expression = "java(buscarProdutoOuNull(movimentacaoDto.produto_id()))")
-    @Mapping(target = "lote", expression = "java(buscarLoteOuNull(movimentacaoDto.lote_id()))")
+    @Mapping(target = "produto", expression = "java(produtoRepository.findById(movimentacaoDto.produto_id()).orElse(null))")
+    @Mapping(target = "lote", expression = "java(estoqueLotesRepository.findById(movimentacaoDto.lote_id()).orElse(null))")
+    @Mapping(target = "tipo_movimentacao", source = "movimentacaoDto.tipoMovimentacao")
     public abstract MovimentacaoEstoque toEntity(MovimentacaoDto movimentacaoDto);
+
+    @Mapping(target = "produto", expression = "java(produtoRepository.findById(movimentacaoDto.produto_id()).orElse(null))")
+    @Mapping(target = "lote", source = "lote")
+    @Mapping(target = "tipo_movimentacao", source = "movimentacaoDto.tipoMovimentacao") // <-- ESSENCIAL!
+    public abstract MovimentacaoEstoque toEntity(MovimentacaoDto movimentacaoDto, EstoqueLotes lote);
 
     @Mapping(target = "lote_id", source = "lote.id")
     @Mapping(target = "produto_id", source = "produto.id")
     @Mapping(target = "produto_nome", source = "produto.nome")
     public abstract MovimentacaoDtoRetorno toDto(MovimentacaoEstoque movimentacaoEstoque);
 
-    protected Produto buscarProdutoOuNull(Long id) {
-        return (id == null) ? null : produtoRepository.findById(id).orElse(null);
-    }
-
-    protected EstoqueLotes buscarLoteOuNull(Long id) {
-        return (id == null) ? null : estoqueLotesRepository.findById(id).orElse(null);
-    }
 
 }
