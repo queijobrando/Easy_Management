@@ -12,6 +12,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EstoqueLoteService {
@@ -58,6 +59,11 @@ public class EstoqueLoteService {
                 .toList();
 
     }
+
+    public int exibirQuantidadeTotalProdutoEstoque(Long id) {
+        return Optional.ofNullable(estoqueLotesRepository.somarQuantidadeProduto(id)).orElse(0);
+    }
+
 
 
 }

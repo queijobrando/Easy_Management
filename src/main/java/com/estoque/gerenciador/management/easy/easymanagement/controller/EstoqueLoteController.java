@@ -34,4 +34,11 @@ public class EstoqueLoteController implements GenericController{
         return ResponseEntity.ok(lista);
     }
 
+    @GetMapping("/total/{id}")
+    public ResponseEntity<String> exibirValorTotalProdutoEstoque(@PathVariable Long id){
+        int total = estoqueLoteService.exibirQuantidadeTotalProdutoEstoque(id);
+
+        return ResponseEntity.ok("O valor total do produto em estoque é de: " + total);
+    }
+
 }
