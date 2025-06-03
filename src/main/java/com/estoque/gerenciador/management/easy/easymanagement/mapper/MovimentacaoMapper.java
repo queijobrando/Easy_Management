@@ -22,12 +22,10 @@ public abstract class MovimentacaoMapper {
 
     @Mapping(target = "produto", expression = "java(produtoRepository.findById(movimentacaoDto.produto_id()).orElse(null))")
     @Mapping(target = "lote", expression = "java(estoqueLotesRepository.findById(movimentacaoDto.lote_id()).orElse(null))")
-    @Mapping(target = "tipo_movimentacao", source = "movimentacaoDto.tipoMovimentacao")
     public abstract MovimentacaoEstoque toEntity(MovimentacaoDto movimentacaoDto);
 
     @Mapping(target = "produto", expression = "java(produtoRepository.findById(movimentacaoDto.produto_id()).orElse(null))")
     @Mapping(target = "lote", source = "lote")
-    @Mapping(target = "tipo_movimentacao", source = "movimentacaoDto.tipoMovimentacao") // <-- ESSENCIAL!
     public abstract MovimentacaoEstoque toEntity(MovimentacaoDto movimentacaoDto, EstoqueLotes lote);
 
     @Mapping(target = "lote_id", source = "lote.id")

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 public record MovimentacaoDto(
         @NotNull(message = "Campo Obrigatório")
-        TipoMovimentacao tipoMovimentacao,
+        TipoMovimentacao tipo_movimentacao,
         @NotNull(message = "Campo Obrigatório")
         Long produto_id,
         Long lote_id,
