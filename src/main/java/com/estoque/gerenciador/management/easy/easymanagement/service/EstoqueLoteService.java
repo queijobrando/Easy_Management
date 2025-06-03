@@ -35,8 +35,13 @@ public class EstoqueLoteService {
     public List<EstoqueLoteDtoRetorno> pesquisarPorExample(Long id ,Long produto, String codigoDeBarras, Integer quantidadeLote){
         var lote = new EstoqueLotes();
         lote.setId(id);
-        lote.setProduto(produtoRepository.findById(produto)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("O produto inserido não existe")));
+        if (produto != null) {
+            var produtoEntidade = produtoRepository.findById(produto).orElse(null);
+            if (produtoEntidade == null) {
+                return List.of();
+            }
+            lote.setProduto(produtoEntidade);
+        }
         lote.setCodigo_de_barras(codigoDeBarras);
         lote.setQuantidade_lote(quantidadeLote);
 

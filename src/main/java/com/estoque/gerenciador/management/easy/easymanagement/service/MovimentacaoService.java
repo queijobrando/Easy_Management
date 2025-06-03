@@ -112,10 +112,20 @@ public class MovimentacaoService {
 
     public List<MovimentacaoDtoRetorno> pesquisarPorExample(Long produto, Long lote, TipoMovimentacao tipoMovimentacao, Integer quantidade){
         var movimentacao = new MovimentacaoEstoque();
-        movimentacao.setProduto(produtoRepository.findById(produto)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("O produto inserido não existe")));
-        movimentacao.setLote(estoqueLotesRepository.findById(lote)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("O lote inserido não existe")));
+        if (produto != null) {
+            var produtoEntidade = produtoRepository.findById(produto).orElse(null);
+            if (produtoEntidade == null) {
+                return List.of();
+            }
+            movimentacao.setProduto(produtoEntidade);
+        }
+        if (lote != null) {
+            var loteEntidade = estoqueLotesRepository.findById(lote).orElse(null);
+            if (loteEntidade == null) {
+                return List.of();
+            }
+            movimentacao.setLote(loteEntidade);
+        }
         movimentacao.setTipo_movimentacao(tipoMovimentacao);
         movimentacao.setQuantidade(quantidade);
 

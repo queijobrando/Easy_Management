@@ -55,8 +55,15 @@ public class ProdutoService {
         var produto = new Produto();
         produto.setNome(nome);
         produto.setDescricao(descricao);
-        produto.setCategoria(categoriaRepository.findById(categoria)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("A Categoria inserida não existe")));
+        if (categoria != null) {
+            var categoriaEntidade = categoriaRepository.findById(categoria).orElse(null);
+            if (categoriaEntidade == null) {
+                return List.of();
+            }
+            produto.setCategoria(categoriaEntidade);
+        }
+
+        produto.setAtivo(ativo);
         produto.setAtivo(ativo);
 
         ExampleMatcher matcher = ExampleMatcher
