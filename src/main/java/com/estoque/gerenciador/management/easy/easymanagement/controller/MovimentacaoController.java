@@ -2,16 +2,15 @@ package com.estoque.gerenciador.management.easy.easymanagement.controller;
 
 import com.estoque.gerenciador.management.easy.easymanagement.dto.movimentacao.MovimentacaoDto;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.movimentacao.MovimentacaoDtoRetorno;
+import com.estoque.gerenciador.management.easy.easymanagement.model.enuns.TipoMovimentacao;
 import com.estoque.gerenciador.management.easy.easymanagement.service.MovimentacaoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("movimentacao")
@@ -27,6 +26,23 @@ public class MovimentacaoController implements GenericController {
         URI location = gerarHeaderLocation(movimentacao.id());
 
         return ResponseEntity.created(location).body(movimentacao);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MovimentacaoDtoRetorno> buscarPorId(@PathVariable Long id){
+        MovimentacaoDtoRetorno movimentacao = movimentacaoService.buscarMovimentacaoId(id);
+        return ResponseEntity.ok(movimentacao);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MovimentacaoDtoRetorno>> buscarPorExemplo(
+            @RequestParam(value = "produto_id", required = false) Long produto,
+            @RequestParam(value = "lote_id", required = false) Long lote,
+            @RequestParam(value = "tipo_movimentacao", required = false) TipoMovimentacao tipoMovimentacao,
+            @RequestParam(value = "quantidade", required = false) Integer quantidade
+    ){
+        List<MovimentacaoDtoRetorno> lista = movimentacaoService.pesquisarPorExample(produto, lote, tipoMovimentacao, quantidade);
+        return ResponseEntity.ok(lista);
     }
 
 }

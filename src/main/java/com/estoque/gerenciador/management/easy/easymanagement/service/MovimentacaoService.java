@@ -9,13 +9,18 @@ import com.estoque.gerenciador.management.easy.easymanagement.mapper.Movimentaca
 import com.estoque.gerenciador.management.easy.easymanagement.model.EstoqueLotes;
 import com.estoque.gerenciador.management.easy.easymanagement.model.MovimentacaoEstoque;
 import com.estoque.gerenciador.management.easy.easymanagement.model.Produto;
+import com.estoque.gerenciador.management.easy.easymanagement.model.enuns.TipoMovimentacao;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.EstoqueLotesRepository;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.MovimentacaoEstoqueRepository;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.ProdutoRepository;
 import com.estoque.gerenciador.management.easy.easymanagement.service.validator.MovimentacaoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class MovimentacaoService {
@@ -95,6 +100,36 @@ public class MovimentacaoService {
             }
             default -> throw new MovimentacaoInvalidaException("Tipo de movimentação inválida ou inexistente");
         }
+
+    }
+
+    public MovimentacaoDtoRetorno buscarMovimentacaoId(Long id){
+        MovimentacaoEstoque movimentacao = movimentacaoEstoqueRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Movimentação não encontrado"));
+
+        return movimentacaoMapper.toDto(movimentacao);
+    }
+
+    public List<MovimentacaoDtoRetorno> pesquisarPorExample(Long produto, Long lote, TipoMovimentacao tipoMovimentacao, Integer quantidade){
+        var movimentacao = new MovimentacaoEstoque();
+        movimentacao.setProduto(produtoRepository.findById(produto)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("O produto inserido não existe")));
+        movimentacao.setLote(estoqueLotesRepository.findById(lote)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("O lote inserido não existe")));
+        movimentacao.setTipo_movimentacao(tipoMovimentacao);
+        movimentacao.setQuantidade(quantidade);
+
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreNullValues()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        return movimentacaoEstoqueRepository
+                .findAll(Example.of(movimentacao, matcher))
+                .stream()
+                .map(movimentacaoMapper::toDto)
+                .toList();
 
     }
 
