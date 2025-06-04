@@ -2,6 +2,7 @@ package com.estoque.gerenciador.management.easy.easymanagement.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,8 +27,22 @@ public class SecurityConfiguration {
                         configurer.loginPage("/login").permitAll()) // Formulario de login web
                 //.formLogin(configurer -> configurer.loginPage("/login.html").successForwardUrl("/home.html"))
                 .httpBasic(Customizer.withDefaults())// Aplicação pra aplicação
-                .authorizeHttpRequests(autorize ->
-                        autorize.anyRequest().authenticated()) //tem q estar autenticado para requisições
+                .authorizeHttpRequests(autorize -> {
+
+                    autorize.requestMatchers(HttpMethod.POST, "/produtos/**").hasRole("ADMIN");
+                    autorize.requestMatchers(HttpMethod.DELETE, "/produtos/**").hasRole("ADMIN");
+                    autorize.requestMatchers(HttpMethod.GET, "/produtos/**").hasAnyRole("ADMIN", "USER");
+
+                    autorize.requestMatchers(HttpMethod.POST, "/categorias/**").hasRole("ADMIN");
+                    autorize.requestMatchers(HttpMethod.DELETE, "/categorias/**").hasRole("ADMIN");
+                    autorize.requestMatchers(HttpMethod.GET, "/categorias/**").hasAnyRole("ADMIN", "USER");
+
+                    autorize.requestMatchers("/lotes/**").hasAnyRole("ADMIN", "USER");
+                    autorize.requestMatchers("/movimentacao/**").hasAnyRole("ADMIN", "USER");
+
+                    autorize.anyRequest().authenticated();
+
+                })
                 .build();
     }
     @Bean
