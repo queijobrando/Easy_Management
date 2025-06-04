@@ -1,4 +1,4 @@
-package com.estoque.gerenciador.management.easy.easymanagement.common;
+package com.estoque.gerenciador.management.easy.easymanagement.exceptions.common;
 
 import com.estoque.gerenciador.management.easy.easymanagement.dto.exceptions.ErroCampo;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.exceptions.ErroResposta;
