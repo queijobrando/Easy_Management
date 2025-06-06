@@ -35,7 +35,7 @@
             </a>
         </div>
         <div class="col-md-4">
-            <a href="/produtos/buscar" class="card-link">
+            <a href="/produtos/cadastrar" class="card-link">
                 <div class="card shadow-sm h-100 card-clickable bg-warning text-white">
                     <div class="card-body">
                         <h5 class="card-title">Cadastrar Produtos</h5>
@@ -45,11 +45,21 @@
             </a>
         </div>
         <div class="col-md-4">
-            <a href="/produtos/buscar" class="card-link">
+            <a href="/produtos/desativar" class="card-link">
                 <div class="card shadow-sm h-100 card-clickable bg-danger text-white">
                     <div class="card-body">
                         <h5 class="card-title">Desativar Produtos</h5>
                         <p class="card-text">Desative um produto cadastrado.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a th:href="@{/categorias/buscar}" class="card-link">
+                <div class="card shadow-sm h-100 card-clickable bg-info text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Buscar Categorias</h5>
+                        <p class="card-text">Faça uma busca pelas categorias cadastradas.</p>
                     </div>
                 </div>
             </a>

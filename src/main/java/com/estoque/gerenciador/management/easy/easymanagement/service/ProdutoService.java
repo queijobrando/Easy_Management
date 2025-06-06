@@ -34,8 +34,8 @@ public class ProdutoService {
 
     @Transactional
     public ProdutoDtoRetorno cadastrarProduto(ProdutoDto produtoDto){
-        categoriaRepository.findById(produtoDto.categoria_id())
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Categoria não encontrada com ID: " + produtoDto.categoria_id()));
+        categoriaRepository.findById(produtoDto.getCategoria_id())
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Categoria não encontrada com ID: " + produtoDto.getCategoria_id()));
 
         Produto produto = produtoMapper.toEntity(produtoDto);
         produtoValidator.validar(produto);

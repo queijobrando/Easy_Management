@@ -3,21 +3,28 @@ package com.estoque.gerenciador.management.easy.easymanagement.dto.produto;
 import com.estoque.gerenciador.management.easy.easymanagement.model.enuns.Unidade;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
-public record ProdutoDto(
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProdutoDto {
         @NotBlank(message = "Campo Obrigatório")
-        String nome,
+        String nome;
         @NotBlank(message = "Campo Obrigatório")
-        String descricao,
+        String descricao;
         @NotNull(message = "Campo Obrigatório")
-        Long categoria_id,
+        Long categoria_id;
         @NotNull(message = "Campo Obrigatório")
-        BigDecimal preco,
+        BigDecimal preco;
         @NotNull(message = "Campo Obrigatório")
-        Unidade unidade,
+        Unidade unidade;
         @NotNull(message = "Campo Obrigatório")
-        Boolean perecivel
-) {
+        Boolean perecivel;
 }

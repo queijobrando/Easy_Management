@@ -30,9 +30,9 @@ public class SecurityConfiguration {
                     autorize.requestMatchers(HttpMethod.DELETE, "/api/produtos/**").hasRole("ADMIN");
                     autorize.requestMatchers(HttpMethod.GET, "/api/produtos/**").hasAnyRole("ADMIN", "USER");
 
-                    autorize.requestMatchers(HttpMethod.POST, "/categorias/**").hasRole("ADMIN");
-                    autorize.requestMatchers(HttpMethod.DELETE, "/categorias/**").hasRole("ADMIN");
-                    autorize.requestMatchers(HttpMethod.GET, "/categorias/**").hasAnyRole("ADMIN", "USER");
+                    autorize.requestMatchers(HttpMethod.POST, "/api/categorias/**").hasRole("ADMIN");
+                    autorize.requestMatchers(HttpMethod.DELETE, "/api/categorias/**").hasRole("ADMIN");
+                    autorize.requestMatchers(HttpMethod.GET, "/api/categorias/**").hasAnyRole("ADMIN", "USER");
 
                     autorize.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll();
                     autorize.requestMatchers("/css/**").permitAll();

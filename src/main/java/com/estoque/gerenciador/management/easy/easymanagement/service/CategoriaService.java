@@ -43,6 +43,10 @@ public class CategoriaService {
         return categoriaMapper.toDto(categorias);
     }
 
+    public List<CategoriaDtoRetorno> buscarTodas(){
+        return categoriaRepository.findAll().stream().map(categoriaMapper::toDto).toList();
+    }
+
     public List<CategoriaDtoRetorno> pesquisarPorExample(String nome, String descricao, Boolean ativo){
         var categoria = new Categorias();
         categoria.setNome(nome);
