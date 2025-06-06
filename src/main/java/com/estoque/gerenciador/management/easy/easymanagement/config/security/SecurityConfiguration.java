@@ -21,21 +21,21 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                //.formLogin(configurer -> configurer.loginPage("/login.html").successForwardUrl("/home.html"))
                 .httpBasic(Customizer.withDefaults())// Aplicação pra aplicação
                 .formLogin(configurer ->
-                        configurer.loginPage("/login").permitAll()) // Formulario de login web
+                        configurer.loginPage("/login").defaultSuccessUrl("/home", true).permitAll()) // Formulario de login web
                 .authorizeHttpRequests(autorize -> {
 
-                    autorize.requestMatchers(HttpMethod.POST, "/produtos/**").hasRole("ADMIN");
-                    autorize.requestMatchers(HttpMethod.DELETE, "/produtos/**").hasRole("ADMIN");
-                    autorize.requestMatchers(HttpMethod.GET, "/produtos/**").hasAnyRole("ADMIN", "USER");
+                    autorize.requestMatchers(HttpMethod.POST, "/api/produtos/**").hasRole("ADMIN");
+                    autorize.requestMatchers(HttpMethod.DELETE, "/api/produtos/**").hasRole("ADMIN");
+                    autorize.requestMatchers(HttpMethod.GET, "/api/produtos/**").hasAnyRole("ADMIN", "USER");
 
                     autorize.requestMatchers(HttpMethod.POST, "/categorias/**").hasRole("ADMIN");
                     autorize.requestMatchers(HttpMethod.DELETE, "/categorias/**").hasRole("ADMIN");
                     autorize.requestMatchers(HttpMethod.GET, "/categorias/**").hasAnyRole("ADMIN", "USER");
 
                     autorize.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll();
+                    autorize.requestMatchers("/css/**").permitAll();
 
                     autorize.requestMatchers("/lotes/**").hasAnyRole("ADMIN", "USER");
                     autorize.requestMatchers("/movimentacao/**").hasAnyRole("ADMIN", "USER");

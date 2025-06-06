@@ -1,0 +1,39 @@
+:root {
+    --primary-green: #4caf50;
+    --primary-green-hover: #45a049;
+    --background-light: #e8f5e9;
+}
+
+body {
+    background-color: var(--background-light);
+}
+
+.btn-green {
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+}
+
+.btn-green:hover {
+    background-color: var(--primary-green-hover);
+    color: white;
+}
+
+.card {
+    border-radius: 1rem;
+    border: none;
+}
+
+.btn-success {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+.btn-success:hover {
+    background-color: var(--primary-green-hover);
+    border-color: var(--primary-green-hover);
+}
+
+.table-success {
+    background-color: #c8e6c9;
+}
