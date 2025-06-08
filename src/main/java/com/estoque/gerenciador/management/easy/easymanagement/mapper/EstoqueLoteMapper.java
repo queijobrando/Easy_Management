@@ -14,7 +14,7 @@ public abstract class EstoqueLoteMapper {
     @Autowired
     ProdutoRepository produtoRepository;
 
-    @Mapping(target = "produto", expression = "java(produtoRepository.findById(movimentacaoDto.produto_id()).orElse(null))")
+    @Mapping(target = "produto", expression = "java(produtoRepository.findById(movimentacaoDto.getProduto_id()).orElse(null))")
     @Mapping(target = "quantidade_lote", source = "quantidade")
     public abstract EstoqueLotes toEntity(MovimentacaoDto movimentacaoDto);
 

@@ -38,7 +38,7 @@ public class SecurityConfiguration {
                     autorize.requestMatchers("/css/**").permitAll();
 
                     autorize.requestMatchers("/lotes/**").hasAnyRole("ADMIN", "USER");
-                    autorize.requestMatchers("/movimentacao/**").hasAnyRole("ADMIN", "USER");
+                    autorize.requestMatchers("/api/movimentacao/**").hasAnyRole("ADMIN", "USER");
 
                     autorize.anyRequest().authenticated();
 

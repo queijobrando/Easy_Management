@@ -2,6 +2,7 @@ package com.estoque.gerenciador.management.easy.easymanagement.mapper;
 
 import com.estoque.gerenciador.management.easy.easymanagement.dto.movimentacao.MovimentacaoDto;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.movimentacao.MovimentacaoDtoRetorno;
+import com.estoque.gerenciador.management.easy.easymanagement.model.Categorias;
 import com.estoque.gerenciador.management.easy.easymanagement.model.EstoqueLotes;
 import com.estoque.gerenciador.management.easy.easymanagement.model.MovimentacaoEstoque;
 import com.estoque.gerenciador.management.easy.easymanagement.model.Produto;
@@ -20,11 +21,11 @@ public abstract class MovimentacaoMapper {
     @Autowired
     protected EstoqueLotesRepository estoqueLotesRepository;
 
-    @Mapping(target = "produto", expression = "java(produtoRepository.findById(movimentacaoDto.produto_id()).orElse(null))")
-    @Mapping(target = "lote", expression = "java(estoqueLotesRepository.findById(movimentacaoDto.lote_id()).orElse(null))")
+    @Mapping(target = "produto", expression = "java(produtoRepository.findById(movimentacaoDto.getProduto_id()).orElse(null))")
+    @Mapping(target = "lote", expression = "java(estoqueLotesRepository.findById(movimentacaoDto.getLote_id()).orElse(null))")
     public abstract MovimentacaoEstoque toEntity(MovimentacaoDto movimentacaoDto);
 
-    @Mapping(target = "produto", expression = "java(produtoRepository.findById(movimentacaoDto.produto_id()).orElse(null))")
+    @Mapping(target = "produto", expression = "java(produtoRepository.findById(movimentacaoDto.getProduto_id()).orElse(null))")
     @Mapping(target = "lote", source = "lote")
     public abstract MovimentacaoEstoque toEntity(MovimentacaoDto movimentacaoDto, EstoqueLotes lote);
 
@@ -32,6 +33,14 @@ public abstract class MovimentacaoMapper {
     @Mapping(target = "produto_id", source = "produto.id")
     @Mapping(target = "produto_nome", source = "produto.nome")
     public abstract MovimentacaoDtoRetorno toDto(MovimentacaoEstoque movimentacaoEstoque);
+
+    protected Produto mapProduto(Long id) {
+        return id == null ? null : produtoRepository.findById(id).orElse(null);
+    }
+
+    protected EstoqueLotes mapEstoqueLotes(Long id) {
+        return id == null ? null : estoqueLotesRepository.findById(id).orElse(null);
+    }
 
 
 }

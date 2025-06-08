@@ -13,12 +13,12 @@ import java.util.Objects;
 public class MovimentacaoValidator {
 
     public void validarEntrada(MovimentacaoDto dto, Produto produto, EstoqueLotes lote) {
-        if (produto.getPerecivel() && dto.validade() == null) {
+        if (produto.getPerecivel() && dto.getValidade() == null) {
             throw new MovimentacaoInvalidaException("Campo validade obrigatório quando produto é perecível");
         }
 
         if (lote != null) {
-            if (!Objects.equals(lote.getValidade(), dto.validade())) {
+            if (!Objects.equals(lote.getValidade(), dto.getValidade())) {
                 throw new MovimentacaoInvalidaException("A validade dos produtos da movimentação de ENTRADA não pode ser diferente da validade do lote");
             }
 
@@ -41,7 +41,7 @@ public class MovimentacaoValidator {
             throw new MovimentacaoInvalidaException("A validade do lote já venceu");
         }
 
-        if (dto.quantidade() > lote.getQuantidade_lote()) {
+        if (dto.getQuantidade() > lote.getQuantidade_lote()) {
             throw new MovimentacaoInvalidaException("Quantidade de SAIDA maior que a do lote");
         }
     }

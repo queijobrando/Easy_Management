@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("movimentacao")
+@RequestMapping("api/movimentacao")
 public class MovimentacaoController implements GenericController {
 
     @Autowired

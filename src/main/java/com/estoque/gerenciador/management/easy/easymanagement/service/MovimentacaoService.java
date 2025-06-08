@@ -45,18 +45,18 @@ public class MovimentacaoService {
 
     @Transactional
     public MovimentacaoDtoRetorno cadastrarMovimentacao(MovimentacaoDto dto){
-        Produto produto = produtoRepository.findById(dto.produto_id())
+        Produto produto = produtoRepository.findById(dto.getProduto_id())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Produto não encontrado"));
 
 
         EstoqueLotes lote;
-        if (dto.lote_id() != null) {
-            lote = estoqueLotesRepository.findById(dto.lote_id()).orElse(null);
+        if (dto.getLote_id() != null) {
+            lote = estoqueLotesRepository.findById(dto.getLote_id()).orElse(null);
         } else {
             lote = null;
         }
 
-        switch (dto.tipo_movimentacao()){
+        switch (dto.getTipo_movimentacao()){
             case ENTRADA -> {
                 movimentacaoValidator.validarEntrada(dto, produto, lote);
 
@@ -64,7 +64,7 @@ public class MovimentacaoService {
                     if (lote.getProduto() != produto) {
                         throw new MovimentacaoInvalidaException("O produto informado não pertece ao lote informado");
                     }
-                    lote.setQuantidade_lote(lote.getQuantidade_lote() + dto.quantidade());
+                    lote.setQuantidade_lote(lote.getQuantidade_lote() + dto.getQuantidade());
                     estoqueLotesRepository.save(lote);
 
                     MovimentacaoEstoque movimentacao = movimentacaoMapper.toEntity(dto);
@@ -89,7 +89,7 @@ public class MovimentacaoService {
                     throw new MovimentacaoInvalidaException("Lote não pode ser nulo na saída");
                 }
 
-                lote.setQuantidade_lote(lote.getQuantidade_lote() - dto.quantidade());
+                lote.setQuantidade_lote(lote.getQuantidade_lote() - dto.getQuantidade());
                 estoqueLotesRepository.save(lote);
 
                 MovimentacaoEstoque movimentacao = movimentacaoMapper.toEntity(dto);
