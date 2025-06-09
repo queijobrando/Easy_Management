@@ -97,4 +97,16 @@ public class ProdutoService {
 
         produtoRepository.deleteById(id);
     }
+
+    public Integer totalProdutosCadastrados(){
+        return Optional.ofNullable(produtoRepository.totalProdutosCadastrados()).orElse(0);
+    }
+
+    public Integer totalProdutosCadastradosAtivo(){
+        return Optional.ofNullable(produtoRepository.totalProdutosCadastradosAtivo()).orElse(0);
+    }
+
+    public Integer totalProdutosCadastradosDesativado(){
+        return Optional.ofNullable(produtoRepository.totalProdutosCadastradosDesativado()).orElse(0);
+    }
 }

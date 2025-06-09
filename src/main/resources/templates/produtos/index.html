@@ -55,14 +55,13 @@
             </a>
         </div>
         <div class="col-md-4">
-            <a th:href="@{/categorias/buscar}" class="card-link">
-                <div class="card shadow-sm h-100 card-clickable bg-info text-white">
+                <div class="card shadow-sm h-100 card-clickable bg-success text-white">
                     <div class="card-body">
-                        <h5 class="card-title">Buscar Categorias</h5>
-                        <p class="card-text">Faça uma busca pelas categorias cadastradas.</p>
+                        <h5 th:action="@{/home}" method="get" th:object="${totalProdutos}" class="card-title"></h5>
+                        <p class="card-text">Produtos cadastrados.</p>
+                        <a th:href="@{/categorias/buscar}" class="btn btn-primary">Mais Informações</a>
                     </div>
                 </div>
-            </a>
         </div>
     </div>
 </div>
