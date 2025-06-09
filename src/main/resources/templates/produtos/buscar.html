@@ -11,7 +11,7 @@
 
 <div class="container mt-4">
 
-    <div class="col">
+    <div class="col mb-3">
         <a th:href="@{/produtos/cadastrar}" class="btn btn-success ms-2">Novo Produto</a>
     </div>
 
@@ -40,7 +40,6 @@
             </div>
             <div class="col-12">
                 <button type="submit" class="btn btn-success">Buscar</button>
-                <a th:href="@{/produtos}" class="btn btn-secondary ms-2">Voltar</a>
             </div>
         </form>
     </div>
@@ -91,63 +90,90 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const botoes = document.querySelectorAll(".btn-desativar");
-        const botoesDeletar = document.querySelectorAll(".btn-deletar");
 
-        botoes.forEach(botao => {
-            botao.addEventListener("click", function () {
-                const id = this.getAttribute("data-id");
-
-                if (confirm("Tem certeza que deseja desativar este produto?")) {
-                    fetch(`/api/produtos/desativar/${id}`, {
-                        method: "DELETE",
-                        headers: {
-                            "X-Requested-With": "XMLHttpRequest"
-                        }
-                    }).then(response => {
-                        if (response.ok) {
-                            // Oculta ou atualiza a linha da tabela
-                            const linha = this.closest("tr");
-                            linha.querySelector("td:nth-child(7)").textContent = "Não"; // coluna Ativo
-                            this.remove(); // remove botão
-                        } else {
-                            alert("Erro ao desativar o produto.");
-                        }
-                    }).catch(error => {
-                        alert("Erro de comunicação com o servidor.");
-                        console.error(error);
-                    });
-                }
+        function adicionarEventosDesativar() {
+            const botoes = document.querySelectorAll(".btn-desativar");
+            botoes.forEach(botao => {
+                botao.addEventListener("click", desativarProduto);
             });
-        });
+        }
 
-        botoesDeletar.forEach(botao => {
-            botao.addEventListener("click", function () {
-                const id = this.getAttribute("data-id");
-
-                if (confirm("Tem certeza que deseja deletar este produto? (IRREVERSIVEL)")) {
-                    fetch(`/api/produtos/deletar/${id}`, {
-                        method: "DELETE",
-                        headers: {
-                            "X-Requested-With": "XMLHttpRequest"
-                        }
-                    }).then(response => {
-                        if (response.ok) {
-                            // Oculta ou atualiza a linha da tabela
-                            const linha = this.closest("tr");
-                            linha.remove();
-                        } else {
-                            alert("Erro ao desativar o produto.");
-                        }
-                    }).catch(error => {
-                        alert("Erro de comunicação com o servidor.");
-                        console.error(error);
-                    });
-                }
+        function adicionarEventosDeletar() {
+            const botoesDeletar = document.querySelectorAll(".btn-deletar");
+            botoesDeletar.forEach(botao => {
+                botao.addEventListener("click", deletarProduto);
             });
-        });
+        }
+
+        function desativarProduto() {
+            const id = this.getAttribute("data-id");
+
+            if (confirm("Tem certeza que deseja desativar este produto?")) {
+                fetch(`/api/produtos/desativar/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        const linha = this.closest("tr");
+
+                        // Atualiza o valor da coluna "Ativo" para "Não"
+                        linha.querySelector("td:nth-child(7)").textContent = "Não";
+
+                        // Remove o botão "Desativar"
+                        this.remove();
+
+                        // Cria o botão "Deletar"
+                        const botaoDeletar = document.createElement("button");
+                        botaoDeletar.textContent = "Deletar";
+                        botaoDeletar.className = "btn btn-dark btn-sm btn-deletar";
+                        botaoDeletar.setAttribute("data-id", id);
+                        botaoDeletar.addEventListener("click", deletarProduto);
+
+                        // Adiciona o botão na mesma célula
+                        const celulaAcoes = linha.querySelector("td:last-child");
+                        celulaAcoes.appendChild(botaoDeletar);
+                    } else {
+                        alert("Erro ao desativar o produto.");
+                    }
+                }).catch(error => {
+                    alert("Erro de comunicação com o servidor.");
+                    console.error(error);
+                });
+            }
+        }
+
+        function deletarProduto() {
+            const id = this.getAttribute("data-id");
+
+            if (confirm("Tem certeza que deseja deletar este produto? (IRREVERSÍVEL)")) {
+                fetch(`/api/produtos/deletar/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        const linha = this.closest("tr");
+                        linha.remove();
+                    } else {
+                        alert("Erro ao deletar o produto.");
+                    }
+                }).catch(error => {
+                    alert("Erro de comunicação com o servidor.");
+                    console.error(error);
+                });
+            }
+        }
+
+        // Inicia os eventos
+        adicionarEventosDesativar();
+        adicionarEventosDeletar();
     });
 </script>
+
+
 
 
 </body>

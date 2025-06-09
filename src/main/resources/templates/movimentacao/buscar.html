@@ -10,6 +10,11 @@
 <div th:replace="layout :: navlinks"></div>
 
 <div class="container mt-4">
+
+  <div class="col mb-3">
+    <a th:href="@{/movimentacao/cadastrar}" class="btn btn-success ms-2">Nova Movimentação</a>
+  </div>
+
   <div class="card p-4 shadow-sm">
     <h4 class="text-success">Buscar Movimentações</h4>
     <form th:action="@{/movimentacao/buscar/resultados}" method="get" class="row g-3 mt-2">
@@ -35,7 +40,6 @@
       </div>
       <div class="col-12">
         <button type="submit" class="btn btn-success">Buscar</button>
-        <a th:href="@{/movimentacao}" class="btn btn-secondary ms-2">Voltar</a>
       </div>
     </form>
   </div>

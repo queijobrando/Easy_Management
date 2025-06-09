@@ -26,11 +26,6 @@ public class MovimentacaoViewController {
     @Autowired
     private MovimentacaoService movimentacaoService;
 
-    @GetMapping
-    public String paginaInicialMovimentacao() {
-        return "movimentacao/index";
-    }
-
     @GetMapping("/buscar")
     public String exibirFormularioBusca(){
         return "movimentacao/buscar";

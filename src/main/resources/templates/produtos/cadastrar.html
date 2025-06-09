@@ -19,7 +19,7 @@
 
 <div class="container mt-5">
   <div class="card shadow-sm p-4">
-    <h4 class="text-warning">Cadastro de Produto</h4>
+    <h4 class="text-success">Cadastro de Produto</h4>
     <form th:action="@{/produtos/cadastrar}" method="post" th:object="${produtoDto}" class="row g-3 mt-3">
       <div class="col-md-6">
         <label for="nome" class="form-label">Nome</label>
@@ -69,8 +69,8 @@
       </div>
 
       <div class="col-12 mt-3">
-        <button type="submit" class="btn btn-warning text-white">Cadastrar</button>
-        <a th:href="@{/produtos}" class="btn btn-secondary ms-2">Voltar</a>
+        <button type="submit" class="btn btn-success text-white">Cadastrar</button>
+        <a th:href="@{/produtos/buscar}" class="btn btn-secondary ms-2">Voltar</a>
       </div>
     </form>
   </div>

@@ -19,7 +19,7 @@
 
 <div class="container mt-5">
   <div class="card shadow-sm p-4">
-    <h4 class="text-warning">Cadastro de Movimentação</h4>
+    <h4 class="text-success">Cadastro de Movimentação</h4>
     <form th:action="@{/movimentacao/cadastrar}" method="post" th:object="${movimentacaoDto}" class="row g-3 mt-3">
       <div class="col-md-6">
         <label for="tipo_movimentacao" class="form-label">Tipo de Movimentação</label>
@@ -62,8 +62,8 @@
       </div>
 
       <div class="col-12 mt-3">
-        <button type="submit" class="btn btn-warning text-white">Cadastrar</button>
-        <a th:href="@{/movimentacao}" class="btn btn-secondary ms-2">Voltar</a>
+        <button type="submit" class="btn btn-success text-white">Cadastrar</button>
+        <a th:href="@{/movimentacao/buscar}" class="btn btn-secondary ms-2">Voltar</a>
       </div>
     </form>
   </div>

@@ -28,11 +28,6 @@ public class ProdutoViewController {
     @Autowired
     private CategoriaService categoriaService;
 
-    @GetMapping
-    public String paginaInicialProdutos() {
-        return "produtos/index";
-    }
-
     @GetMapping("/buscar")
     public String exibirFormularioBusca(){
         return "produtos/buscar";
