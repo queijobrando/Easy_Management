@@ -12,7 +12,7 @@
 <div class="container mt-4">
   <div class="card p-4 shadow-sm">
     <h4 class="text-success">Buscar Movimentações</h4>
-    <form th:action="@{/movimentacao/buscar}" method="get" class="row g-3 mt-2">
+    <form th:action="@{/movimentacao/buscar/resultados}" method="get" class="row g-3 mt-2">
       <div class="col-md-4">
         <label for="produto" class="form-label">Produto</label>
         <input type="number" class="form-control" id="produto" name="produto_id">
@@ -40,7 +40,7 @@
     </form>
   </div>
 
-  <div class="mt-4" th:if="${movimentacoes != null}">
+  <div class="mt-4" th:if="${movimentacoes != null and !movimentacoes.isEmpty()}">
     <h5 class="text-success">Resultados:</h5>
     <table class="table table-hoover table-bordered table-striped mt-2">
       <thead>

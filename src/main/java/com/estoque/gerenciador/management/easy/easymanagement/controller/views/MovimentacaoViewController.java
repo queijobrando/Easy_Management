@@ -32,6 +32,11 @@ public class MovimentacaoViewController {
     }
 
     @GetMapping("/buscar")
+    public String exibirFormularioBusca(){
+        return "movimentacao/buscar";
+    }
+
+    @GetMapping("/buscar/resultados")
     public String buscarMovimentacoes(
             @RequestParam(value = "produto_id", required = false) Long produto,
             @RequestParam(value = "lote_id", required = false) Long lote,

@@ -34,6 +34,11 @@ public class ProdutoViewController {
     }
 
     @GetMapping("/buscar")
+    public String exibirFormularioBusca(){
+        return "produtos/buscar";
+    }
+
+    @GetMapping("/buscar/resultados")
     public String buscarProdutos(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "descricao", required = false) String descricao,
@@ -100,6 +105,12 @@ public class ProdutoViewController {
 
         // Redireciona para a página GET passando o id para mostrar o produto ou erro
         return "redirect:/produtos/desativar?id=" + id;
+    }
+
+    @DeleteMapping("{id}")
+    public String desativarProduto(@PathVariable Long id) {
+        produtoService.desativarProduto(id);
+        return "redirect:/produtos/buscar"; // ou para a URL que quiser retornar após ação
     }
 
 }

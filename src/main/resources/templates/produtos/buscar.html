@@ -10,9 +10,14 @@
 <div th:replace="layout :: navlinks"></div>
 
 <div class="container mt-4">
+
+    <div class="col">
+        <a th:href="@{/produtos/cadastrar}" class="btn btn-success ms-2">Novo Produto</a>
+    </div>
+
     <div class="card p-4 shadow-sm">
         <h4 class="text-success">Buscar Produtos</h4>
-        <form th:action="@{/produtos/buscar}" method="get" class="row g-3 mt-2">
+        <form th:action="@{/produtos/buscar/resultados}" method="get" class="row g-3 mt-2">
             <div class="col-md-4">
                 <label for="nome" class="form-label">Nome</label>
                 <input type="text" class="form-control" id="nome" name="nome">
@@ -40,7 +45,7 @@
         </form>
     </div>
 
-    <div class="mt-4" th:if="${produtos != null}">
+    <div class="mt-4" th:if="${produtos != null and !produtos.isEmpty()}">
         <h5 class="text-success">Resultados:</h5>
         <table class="table table-hoover table-bordered table-striped mt-2">
             <thead>
@@ -52,6 +57,7 @@
                 <th>Preço</th>
                 <th>Unidade</th>
                 <th>Ativo</th>
+                <th>Ação</th>
             </tr>
             </thead>
             <tbody>
@@ -63,10 +69,86 @@
                 <td th:text="${produto.preco}"></td>
                 <td th:text="${produto.unidade}"></td>
                 <td th:text="${produto.ativo ? 'Sim' : 'Não'}"></td>
+                <td>
+                    <button type="button"
+                            class="btn btn-danger btn-sm btn-desativar"
+                            th:attr="data-id=${produto.id}"
+                            th:if="${produto.ativo}">
+                        Desativar
+                    </button>
+                    <button type="button"
+                            class="btn btn-dark btn-sm btn-deletar"
+                            th:attr="data-id=${produto.id}"
+                            th:if="${!produto.ativo}">
+                        Deletar
+                    </button>
+                </td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const botoes = document.querySelectorAll(".btn-desativar");
+        const botoesDeletar = document.querySelectorAll(".btn-deletar");
+
+        botoes.forEach(botao => {
+            botao.addEventListener("click", function () {
+                const id = this.getAttribute("data-id");
+
+                if (confirm("Tem certeza que deseja desativar este produto?")) {
+                    fetch(`/api/produtos/desativar/${id}`, {
+                        method: "DELETE",
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest"
+                        }
+                    }).then(response => {
+                        if (response.ok) {
+                            // Oculta ou atualiza a linha da tabela
+                            const linha = this.closest("tr");
+                            linha.querySelector("td:nth-child(7)").textContent = "Não"; // coluna Ativo
+                            this.remove(); // remove botão
+                        } else {
+                            alert("Erro ao desativar o produto.");
+                        }
+                    }).catch(error => {
+                        alert("Erro de comunicação com o servidor.");
+                        console.error(error);
+                    });
+                }
+            });
+        });
+
+        botoesDeletar.forEach(botao => {
+            botao.addEventListener("click", function () {
+                const id = this.getAttribute("data-id");
+
+                if (confirm("Tem certeza que deseja deletar este produto? (IRREVERSIVEL)")) {
+                    fetch(`/api/produtos/deletar/${id}`, {
+                        method: "DELETE",
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest"
+                        }
+                    }).then(response => {
+                        if (response.ok) {
+                            // Oculta ou atualiza a linha da tabela
+                            const linha = this.closest("tr");
+                            linha.remove();
+                        } else {
+                            alert("Erro ao desativar o produto.");
+                        }
+                    }).catch(error => {
+                        alert("Erro de comunicação com o servidor.");
+                        console.error(error);
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
 </body>
 </html>

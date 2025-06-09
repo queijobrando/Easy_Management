@@ -20,6 +20,11 @@ public class CategoriaViewController {
     private CategoriaService categoriaService;
 
     @GetMapping("/buscar")
+    public String exibirFormularioBusca(){
+        return "produtos/categorias";
+    }
+
+    @GetMapping("/buscar/resultados")
     public String buscarCategorias(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "descricao", required = false) String descricao,

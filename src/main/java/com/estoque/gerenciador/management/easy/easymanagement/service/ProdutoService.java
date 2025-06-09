@@ -89,4 +89,12 @@ public class ProdutoService {
         produto.setAtivo(false);
         produtoRepository.save(produto);
     }
+
+    @Transactional
+    public void deletarProduto(Long id){
+        Produto produto = produtoRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Produto não encontrado"));
+
+        produtoRepository.deleteById(id);
+    }
 }

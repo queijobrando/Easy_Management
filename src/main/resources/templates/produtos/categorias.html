@@ -12,7 +12,7 @@
 <div class="container mt-4">
   <div class="card p-4 shadow-sm">
     <h4 class="text-success">Buscar Categorias</h4>
-    <form th:action="@{/categorias/buscar}" method="get" class="row g-3 mt-2">
+    <form th:action="@{/categorias/buscar/resultados}" method="get" class="row g-3 mt-2">
       <div class="col-md-4">
         <label for="nome" class="form-label">Nome</label>
         <input type="text" class="form-control" id="nome" name="nome">
@@ -36,7 +36,7 @@
     </form>
   </div>
 
-  <div class="mt-4" th:if="${categorias != null}">
+  <div class="mt-4" th:if="${categorias != null and !categorias.isEmpty()}">
     <h5 class="text-success">Resultados:</h5>
     <table class="table table-hoover table-bordered table-striped mt-2">
       <thead>
