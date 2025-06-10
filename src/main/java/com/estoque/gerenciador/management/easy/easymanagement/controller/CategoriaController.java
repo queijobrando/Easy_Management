@@ -6,6 +6,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.service.CategoriaS
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -20,6 +21,7 @@ public class CategoriaController implements GenericController {
 
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoriaDtoRetorno> cadastrarCategoria(@RequestBody @Valid CategoriaDto dto){
         CategoriaDtoRetorno categoria = categoriaService.cadastrarCategoria(dto);
 
@@ -29,12 +31,14 @@ public class CategoriaController implements GenericController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public ResponseEntity<CategoriaDtoRetorno> buscarPorId(@PathVariable Long id){
         CategoriaDtoRetorno categoria = categoriaService.buscarCategoriaId(id);
         return ResponseEntity.ok(categoria);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public ResponseEntity<List<CategoriaDtoRetorno>> buscarPorExemplo(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "descricao", required = false) String descricao,
@@ -46,6 +50,7 @@ public class CategoriaController implements GenericController {
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> desativarCategoria(@PathVariable Long id){
         categoriaService.desativarCategoria(id);
         return ResponseEntity.ok("Categoria desativada com Sucesso");

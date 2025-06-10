@@ -10,6 +10,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.service.CategoriaS
 import com.estoque.gerenciador.management.easy.easymanagement.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,11 +30,13 @@ public class ProdutoViewController {
     private CategoriaService categoriaService;
 
     @GetMapping("/buscar")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String exibirFormularioBusca(){
         return "produtos/buscar";
     }
 
     @GetMapping("/buscar/resultados")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String buscarProdutos(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "descricao", required = false) String descricao,
@@ -47,6 +50,7 @@ public class ProdutoViewController {
     }
 
     @GetMapping("/cadastrar")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String exibirFormularioCadastro(Model model) {
         model.addAttribute("produtoDto", new ProdutoDto());
         model.addAttribute("categorias", categoriaService.buscarTodas());
@@ -54,6 +58,7 @@ public class ProdutoViewController {
     }
 
     @PostMapping("/cadastrar")
+    @PreAuthorize("hasRole('ADMIN')")
     public String cadastrarProduto(@Valid @ModelAttribute("produtoDto") ProdutoDto produtoDto,
                                    BindingResult result,
                                    Model model) {
@@ -75,34 +80,8 @@ public class ProdutoViewController {
         return "produtos/cadastrar";
     }
 
-    @GetMapping("/desativar")
-    public String exibirProdutoDesativar(@RequestParam(value = "id", required = false)Long id, Model model){
-        if (id != null) {
-            try {
-                ProdutoDtoRetorno produto = produtoService.buscarProdutoId(id);
-                model.addAttribute("produto", produto);
-            } catch (EntidadeNaoEncontradaException e) {
-                model.addAttribute("erroMensagem", e.getMessage());
-            }
-        }
-
-        return "produtos/desativarproduto";
-    }
-
-    @PostMapping("/desativar")
-    public String desativarProduto(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
-        try {
-            produtoService.desativarProduto(id);
-            redirectAttributes.addFlashAttribute("produtodesativado", true);
-        } catch (EntidadeNaoEncontradaException e) {
-            redirectAttributes.addFlashAttribute("erroMensagem", e.getMessage());
-        }
-
-        // Redireciona para a página GET passando o id para mostrar o produto ou erro
-        return "redirect:/produtos/desativar?id=" + id;
-    }
-
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String desativarProduto(@PathVariable Long id) {
         produtoService.desativarProduto(id);
         return "redirect:/produtos/buscar"; // ou para a URL que quiser retornar após ação

@@ -7,6 +7,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.service.Movimentac
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -20,6 +21,7 @@ public class MovimentacaoController implements GenericController {
     private MovimentacaoService movimentacaoService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public ResponseEntity<MovimentacaoDtoRetorno> cadastrarMovimentacao(@RequestBody @Valid MovimentacaoDto dto){
         MovimentacaoDtoRetorno movimentacao = movimentacaoService.cadastrarMovimentacao(dto);
 
@@ -29,12 +31,14 @@ public class MovimentacaoController implements GenericController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public ResponseEntity<MovimentacaoDtoRetorno> buscarPorId(@PathVariable Long id){
         MovimentacaoDtoRetorno movimentacao = movimentacaoService.buscarMovimentacaoId(id);
         return ResponseEntity.ok(movimentacao);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public ResponseEntity<List<MovimentacaoDtoRetorno>> buscarPorExemplo(
             @RequestParam(value = "produto_id", required = false) Long produto,
             @RequestParam(value = "lote_id", required = false) Long lote,

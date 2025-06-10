@@ -2,6 +2,7 @@ package com.estoque.gerenciador.management.easy.easymanagement.controller.views;
 
 import com.estoque.gerenciador.management.easy.easymanagement.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ public class ViewController {
     }
 
     @GetMapping({"/", "/home"})
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String home(Model model) {
         model.addAttribute("totalprodutos", produtoService.totalProdutosCadastrados());
         model.addAttribute("produtosAtivos", produtoService.totalProdutosCadastradosAtivo());

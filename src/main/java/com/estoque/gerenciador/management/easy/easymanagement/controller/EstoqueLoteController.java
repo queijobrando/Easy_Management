@@ -6,6 +6,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.model.enuns.TipoMo
 import com.estoque.gerenciador.management.easy.easymanagement.service.EstoqueLoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +19,14 @@ public class EstoqueLoteController implements GenericController{
     private EstoqueLoteService estoqueLoteService;
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public ResponseEntity<EstoqueLoteDtoRetorno> buscarPorId(@PathVariable Long id){
         EstoqueLoteDtoRetorno lote = estoqueLoteService.buscarEstoqueLoteId(id);
         return ResponseEntity.ok(lote);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public ResponseEntity<List<EstoqueLoteDtoRetorno>> buscarPorExemplo(
             @RequestParam(value = "lote_id", required = false) Long lote,
             @RequestParam(value = "produto_id", required = false) Long produto,
@@ -35,6 +38,7 @@ public class EstoqueLoteController implements GenericController{
     }
 
     @GetMapping("/total/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public ResponseEntity<String> exibirValorTotalProdutoEstoque(@PathVariable Long id){
         int total = estoqueLoteService.exibirQuantidadeTotalProdutoEstoque(id);
 

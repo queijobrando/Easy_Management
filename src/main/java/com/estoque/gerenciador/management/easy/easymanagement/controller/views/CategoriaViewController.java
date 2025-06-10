@@ -4,6 +4,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.dto.categoria.Cate
 import com.estoque.gerenciador.management.easy.easymanagement.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +21,13 @@ public class CategoriaViewController {
     private CategoriaService categoriaService;
 
     @GetMapping("/buscar")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String exibirFormularioBusca(){
         return "categorias/buscar";
     }
 
     @GetMapping("/buscar/resultados")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String buscarCategorias(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "descricao", required = false) String descricao,

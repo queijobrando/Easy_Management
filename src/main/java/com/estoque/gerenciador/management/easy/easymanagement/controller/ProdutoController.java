@@ -7,6 +7,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.service.ProdutoSer
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,6 +25,7 @@ public class ProdutoController implements GenericController{
     private ProdutoMapper produtoMapper;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProdutoDtoRetorno> cadastrarProduto(@RequestBody @Valid ProdutoDto dto){
         ProdutoDtoRetorno produto = produtoService.cadastrarProduto(dto);
 
@@ -33,12 +35,14 @@ public class ProdutoController implements GenericController{
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public ResponseEntity<ProdutoDtoRetorno> buscarPorId(@PathVariable Long id){
         ProdutoDtoRetorno produto = produtoService.buscarProdutoId(id);
         return ResponseEntity.ok(produto);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public ResponseEntity<List<ProdutoDtoRetorno>> buscarPorExemplo(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "descricao", required = false) String descricao,
@@ -51,6 +55,7 @@ public class ProdutoController implements GenericController{
 
 
     @DeleteMapping("/desativar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseBody
     public ResponseEntity<String> desativarProduto(@PathVariable Long id){
         produtoService.desativarProduto(id);
@@ -58,6 +63,7 @@ public class ProdutoController implements GenericController{
     }
 
     @DeleteMapping("/deletar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseBody
     public ResponseEntity<String> deletarProduto(@PathVariable Long id){
         produtoService.deletarProduto(id);
