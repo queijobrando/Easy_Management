@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Buscar Produtos</title>
@@ -9,9 +9,13 @@
 <body>
 <div th:replace="layout :: navlinks"></div>
 
+<div th:if="${erroMensagem}" class="alert alert-danger">
+    <span th:text="${erroMensagem}"></span>
+</div>
+
 <div class="container mt-4">
 
-    <div class="col mb-3">
+    <div sec:authorize="hasRole('ADMIN')" class="col mb-3">
         <a th:href="@{/produtos/cadastrar}" class="btn btn-success ms-2">Novo Produto</a>
     </div>
 
@@ -56,7 +60,7 @@
                 <th>Preço</th>
                 <th>Unidade</th>
                 <th>Ativo</th>
-                <th>Ação</th>
+                <th sec:authorize="hasRole('ADMIN')">Ação</th>
             </tr>
             </thead>
             <tbody>
@@ -68,13 +72,13 @@
                 <td th:text="${produto.preco}"></td>
                 <td th:text="${produto.unidade}"></td>
                 <td th:text="${produto.ativo ? 'Sim' : 'Não'}"></td>
-                <td>
+                <td sec:authorize="hasRole('ADMIN')">
                     <button type="button"
                             class="btn btn-danger btn-sm btn-desativar"
                             th:attr="data-id=${produto.id}"
                             th:if="${produto.ativo}">
                         Desativar
-                    </button>
+                    </button >
                     <button type="button"
                             class="btn btn-dark btn-sm btn-deletar"
                             th:attr="data-id=${produto.id}"

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <div th:fragment="navlinks">
     <nav class="navbar navbar-expand-sm bg-success navbar-dark">
@@ -24,6 +24,11 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/movimentacao/buscar}">Movimentação</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <span class="nav-link text-white" sec:authentication="name">Usuário</span>
                     </li>
                 </ul>
             </div>

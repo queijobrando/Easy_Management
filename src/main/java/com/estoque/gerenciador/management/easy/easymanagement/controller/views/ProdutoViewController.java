@@ -30,13 +30,11 @@ public class ProdutoViewController {
     private CategoriaService categoriaService;
 
     @GetMapping("/buscar")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String exibirFormularioBusca(){
         return "produtos/buscar";
     }
 
     @GetMapping("/buscar/resultados")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String buscarProdutos(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "descricao", required = false) String descricao,
@@ -50,7 +48,7 @@ public class ProdutoViewController {
     }
 
     @GetMapping("/cadastrar")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String exibirFormularioCadastro(Model model) {
         model.addAttribute("produtoDto", new ProdutoDto());
         model.addAttribute("categorias", categoriaService.buscarTodas());
@@ -81,7 +79,6 @@ public class ProdutoViewController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public String desativarProduto(@PathVariable Long id) {
         produtoService.desativarProduto(id);
         return "redirect:/produtos/buscar"; // ou para a URL que quiser retornar após ação

@@ -21,13 +21,11 @@ public class CategoriaViewController {
     private CategoriaService categoriaService;
 
     @GetMapping("/buscar")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String exibirFormularioBusca(){
         return "categorias/buscar";
     }
 
     @GetMapping("/buscar/resultados")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String buscarCategorias(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "descricao", required = false) String descricao,

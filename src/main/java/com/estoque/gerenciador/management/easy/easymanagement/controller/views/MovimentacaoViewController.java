@@ -28,13 +28,11 @@ public class MovimentacaoViewController {
     private MovimentacaoService movimentacaoService;
 
     @GetMapping("/buscar")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String exibirFormularioBusca(){
         return "movimentacao/buscar";
     }
 
     @GetMapping("/buscar/resultados")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String buscarMovimentacoes(
             @RequestParam(value = "produto_id", required = false) Long produto,
             @RequestParam(value = "lote_id", required = false) Long lote,
@@ -49,14 +47,12 @@ public class MovimentacaoViewController {
 
 
     @GetMapping("/cadastrar")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String exibirFormularioCadastro(Model model) {
         model.addAttribute("movimentacaoDto", new MovimentacaoDto());
         return "movimentacao/cadastrar";
     }
 
     @PostMapping("/cadastrar")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String cadastrarMovimentacao(@Valid @ModelAttribute("movimentacaoDto") MovimentacaoDto movimentacaoDto,
                                    BindingResult result,
                                    Model model) {

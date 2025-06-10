@@ -19,7 +19,6 @@ public class ViewController {
     }
 
     @GetMapping({"/", "/home"})
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     public String home(Model model) {
         model.addAttribute("totalprodutos", produtoService.totalProdutosCadastrados());
         model.addAttribute("produtosAtivos", produtoService.totalProdutosCadastradosAtivo());
