@@ -74,7 +74,8 @@ public class MovimentacaoViewController {
             model.addAttribute("movimentacaoDto", new MovimentacaoDto()); // limpa formulário
         } catch (MovimentacaoInvalidaException | EntidadeNaoEncontradaException e) {
             model.addAttribute("erroMensagem", e.getMessage());
-            model.addAttribute("movimentacaoDto", movimentacaoDto);         // mantém os dados preenchidos
+            model.addAttribute("movimentacaoDto", movimentacaoDto);
+            model.addAttribute("produtos", produtoService.buscarTodos());// mantém os dados preenchidos
         }
 
         return "movimentacao/cadastrar";

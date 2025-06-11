@@ -30,10 +30,9 @@ public class EstoqueLoteController implements GenericController{
     public ResponseEntity<List<EstoqueLoteDtoRetorno>> buscarPorExemplo(
             @RequestParam(value = "lote_id", required = false) Long lote,
             @RequestParam(value = "produto_id", required = false) Long produto,
-            @RequestParam(value = "codigo_de_barras", required = false) String codigoDeBarras,
-            @RequestParam(value = "quantidade", required = false) Integer quantidadeLote
+            @RequestParam(value = "codigo_de_barras", required = false) String codigoDeBarras
     ){
-        List<EstoqueLoteDtoRetorno> lista = estoqueLoteService.pesquisarPorExample(lote, produto, codigoDeBarras, quantidadeLote);
+        List<EstoqueLoteDtoRetorno> lista = estoqueLoteService.pesquisarPorExample(lote, produto, codigoDeBarras);
         return ResponseEntity.ok(lista);
     }
 

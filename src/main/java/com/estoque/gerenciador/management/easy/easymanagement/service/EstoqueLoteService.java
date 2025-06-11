@@ -33,7 +33,7 @@ public class EstoqueLoteService {
         return estoqueLoteMapper.toDto(estoqueLotes);
     }
 
-    public List<EstoqueLoteDtoRetorno> pesquisarPorExample(Long id ,Long produto, String codigoDeBarras, Integer quantidadeLote){
+    public List<EstoqueLoteDtoRetorno> pesquisarPorExample(Long id ,Long produto, String codigoDeBarras){
         var lote = new EstoqueLotes();
         lote.setId(id);
         if (produto != null) {
@@ -44,7 +44,6 @@ public class EstoqueLoteService {
             lote.setProduto(produtoEntidade);
         }
         lote.setCodigo_de_barras(codigoDeBarras);
-        lote.setQuantidade_lote(quantidadeLote);
 
         ExampleMatcher matcher = ExampleMatcher
                 .matching()
