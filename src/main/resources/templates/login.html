@@ -8,6 +8,10 @@
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100 bg-light">
 
+<div th:if="${param.logout}" class="alert alert-success">
+    Logout realizado com sucesso!
+</div>
+
 <div class="login-card">
     <h4 class="mb-4 text-center text-success">Bem-vindo! Faça login</h4>
     <form method="post" th:action="@{/login}">

@@ -30,6 +30,12 @@
                     <li class="nav-item">
                         <span class="nav-link text-white" sec:authentication="name">Usuário</span>
                     </li>
+                    <li>
+                        <form th:action="@{/logout}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <button type="submit" class="btn btn-danger">Sair</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>

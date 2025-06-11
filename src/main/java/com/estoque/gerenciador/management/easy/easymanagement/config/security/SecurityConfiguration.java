@@ -24,7 +24,6 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
-                .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())// Aplicação pra aplicação
                 .formLogin(configurer ->
                         configurer.loginPage("/login").defaultSuccessUrl("/home", true).permitAll()) // Formulario de login web
