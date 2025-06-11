@@ -1,10 +1,12 @@
 package com.estoque.gerenciador.management.easy.easymanagement.service;
 
+import com.estoque.gerenciador.management.easy.easymanagement.config.security.SecurityService;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.categoria.CategoriaDto;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.categoria.CategoriaDtoRetorno;
 import com.estoque.gerenciador.management.easy.easymanagement.exceptions.EntidadeNaoEncontradaException;
 import com.estoque.gerenciador.management.easy.easymanagement.mapper.CategoriaMapper;
 import com.estoque.gerenciador.management.easy.easymanagement.model.Categorias;
+import com.estoque.gerenciador.management.easy.easymanagement.model.Usuario;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.CategoriaRepository;
 import com.estoque.gerenciador.management.easy.easymanagement.service.validator.CategoriaValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +29,15 @@ public class CategoriaService {
     @Autowired
     private CategoriaValidator categoriaValidator;
 
+    @Autowired
+    private SecurityService securityService;
+
     @Transactional
     public CategoriaDtoRetorno cadastrarCategoria(CategoriaDto dto){
         Categorias categoria = categoriaMapper.toEntity(dto);
         categoriaValidator.validarDuplicidade(categoria);
+        Usuario usuario = securityService.obterUsuarioLogado();
+        categoria.setUsuario(usuario);
         categoriaRepository.save(categoria);
 
         return categoriaMapper.toDto(categoria);

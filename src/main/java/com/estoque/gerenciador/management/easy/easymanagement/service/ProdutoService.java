@@ -1,10 +1,12 @@
 package com.estoque.gerenciador.management.easy.easymanagement.service;
 
+import com.estoque.gerenciador.management.easy.easymanagement.config.security.SecurityService;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.produto.ProdutoDto;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.produto.ProdutoDtoRetorno;
 import com.estoque.gerenciador.management.easy.easymanagement.exceptions.EntidadeNaoEncontradaException;
 import com.estoque.gerenciador.management.easy.easymanagement.mapper.ProdutoMapper;
 import com.estoque.gerenciador.management.easy.easymanagement.model.Produto;
+import com.estoque.gerenciador.management.easy.easymanagement.model.Usuario;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.CategoriaRepository;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.ProdutoRepository;
 import com.estoque.gerenciador.management.easy.easymanagement.service.validator.ProdutoValidator;
@@ -32,6 +34,9 @@ public class ProdutoService {
     @Autowired
     private ProdutoValidator produtoValidator;
 
+    @Autowired
+    private SecurityService securityService;
+
     @Transactional
     public ProdutoDtoRetorno cadastrarProduto(ProdutoDto produtoDto){
         categoriaRepository.findById(produtoDto.getCategoria_id())
@@ -39,6 +44,8 @@ public class ProdutoService {
 
         Produto produto = produtoMapper.toEntity(produtoDto);
         produtoValidator.validar(produto);
+        Usuario usuario = securityService.obterUsuarioLogado();
+        produto.setUsuario(usuario);
         produtoRepository.save(produto);
 
         return produtoMapper.toDto(produto);

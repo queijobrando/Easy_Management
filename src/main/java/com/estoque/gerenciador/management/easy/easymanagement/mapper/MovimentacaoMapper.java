@@ -32,6 +32,7 @@ public abstract class MovimentacaoMapper {
     @Mapping(target = "lote_id", source = "lote.id")
     @Mapping(target = "produto_id", source = "produto.id")
     @Mapping(target = "produto_nome", source = "produto.nome")
+    @Mapping(target = "usuario_login", source = "usuario.login")
     public abstract MovimentacaoDtoRetorno toDto(MovimentacaoEstoque movimentacaoEstoque);
 
     protected Produto mapProduto(Long id) {

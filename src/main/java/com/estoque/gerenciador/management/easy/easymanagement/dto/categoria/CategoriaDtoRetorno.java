@@ -8,6 +8,7 @@ public record CategoriaDtoRetorno(
         String descricao,
         Boolean ativo,
         LocalDateTime data_cadastro,
-        LocalDateTime data_atualizacao
+        LocalDateTime data_atualizacao,
+        String usuario_login
 ) {
 }

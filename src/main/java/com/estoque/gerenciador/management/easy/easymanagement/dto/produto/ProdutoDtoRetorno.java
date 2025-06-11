@@ -11,6 +11,7 @@ public record ProdutoDtoRetorno(
         String descricao,
         String codigo_de_barras,
         String categoria_nome,
+        String usuario_login,
         BigDecimal preco,
         Unidade unidade,
         Boolean perecivel,

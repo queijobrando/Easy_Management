@@ -44,6 +44,10 @@ public class Categorias {
     @Column(name = "data_atualizacao")
     private LocalDateTime data_atualizacao;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     @PrePersist
     public void gerarCamposAutomaticos(){
         this.ativo = true;

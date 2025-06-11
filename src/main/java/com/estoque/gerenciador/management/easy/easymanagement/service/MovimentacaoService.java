@@ -1,5 +1,6 @@
 package com.estoque.gerenciador.management.easy.easymanagement.service;
 
+import com.estoque.gerenciador.management.easy.easymanagement.config.security.SecurityService;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.movimentacao.MovimentacaoDto;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.movimentacao.MovimentacaoDtoRetorno;
 import com.estoque.gerenciador.management.easy.easymanagement.exceptions.EntidadeNaoEncontradaException;
@@ -9,6 +10,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.mapper.Movimentaca
 import com.estoque.gerenciador.management.easy.easymanagement.model.EstoqueLotes;
 import com.estoque.gerenciador.management.easy.easymanagement.model.MovimentacaoEstoque;
 import com.estoque.gerenciador.management.easy.easymanagement.model.Produto;
+import com.estoque.gerenciador.management.easy.easymanagement.model.Usuario;
 import com.estoque.gerenciador.management.easy.easymanagement.model.enuns.TipoMovimentacao;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.EstoqueLotesRepository;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.MovimentacaoEstoqueRepository;
@@ -43,6 +45,9 @@ public class MovimentacaoService {
     @Autowired
     private MovimentacaoValidator movimentacaoValidator;
 
+    @Autowired
+    private SecurityService securityService;
+
     @Transactional
     public MovimentacaoDtoRetorno cadastrarMovimentacao(MovimentacaoDto dto){
         Produto produto = produtoRepository.findById(dto.getProduto_id())
@@ -68,6 +73,8 @@ public class MovimentacaoService {
                     estoqueLotesRepository.save(lote);
 
                     MovimentacaoEstoque movimentacao = movimentacaoMapper.toEntity(dto);
+                    Usuario usuario = securityService.obterUsuarioLogado();
+                    movimentacao.setUsuario(usuario);
                     movimentacaoEstoqueRepository.save(movimentacao);
 
                     return movimentacaoMapper.toDto(movimentacao);
@@ -77,6 +84,8 @@ public class MovimentacaoService {
 
                     MovimentacaoEstoque movimentacao = movimentacaoMapper.toEntity(dto, estoqueLote);
                     movimentacao.setId(null); // <-- ESSENCIAL!
+                    Usuario usuario = securityService.obterUsuarioLogado();
+                    movimentacao.setUsuario(usuario);
                     movimentacaoEstoqueRepository.save(movimentacao);
 
                     return movimentacaoMapper.toDto(movimentacao);
@@ -93,6 +102,8 @@ public class MovimentacaoService {
                 estoqueLotesRepository.save(lote);
 
                 MovimentacaoEstoque movimentacao = movimentacaoMapper.toEntity(dto);
+                Usuario usuario = securityService.obterUsuarioLogado();
+                movimentacao.setUsuario(usuario);
                 movimentacaoEstoqueRepository.save(movimentacao);
 
                 return movimentacaoMapper.toDto(movimentacao);

@@ -11,6 +11,7 @@ public record MovimentacaoDtoRetorno(
         Long lote_id,
         Long produto_id,
         String produto_nome,
+        String usuario_login,
         LocalDateTime data_movimentacao,
         String observacao
 ) {

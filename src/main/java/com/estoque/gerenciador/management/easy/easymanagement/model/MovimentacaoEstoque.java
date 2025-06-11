@@ -40,6 +40,10 @@ public class MovimentacaoEstoque {
     @Column(name = "data_movimentacao")
     private LocalDateTime data_movimentacao;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     @Column(name = "observacao", length = 100)
     private String observacao;
 }

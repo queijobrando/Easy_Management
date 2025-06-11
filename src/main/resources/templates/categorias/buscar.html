@@ -43,6 +43,7 @@
         <th>ID</th>
         <th>Nome</th>
         <th>Descrição</th>
+        <th>Usuario</th>
         <th>Ativo</th>
       </tr>
       </thead>
@@ -51,6 +52,7 @@
         <td th:text="${categoria.id}"></td>
         <td th:text="${categoria.nome}"></td>
         <td th:text="${categoria.descricao}"></td>
+        <td th:text="${categoria.usuario_login}"></td>
         <td th:text="${categoria.ativo ? 'Sim' : 'Não'}"></td>
       </tr>
       </tbody>

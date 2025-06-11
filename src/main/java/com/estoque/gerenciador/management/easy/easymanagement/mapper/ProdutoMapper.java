@@ -19,6 +19,7 @@ public abstract class ProdutoMapper {
     public abstract Produto toEntity(ProdutoDto produtoDto);
 
     @Mapping(target = "categoria_nome", source = "categoria.nome")
+    @Mapping(target = "usuario_login", source = "usuario.login")
     public abstract ProdutoDtoRetorno toDto(Produto produto);
 
     protected Categorias mapCategoria(Long id) {
