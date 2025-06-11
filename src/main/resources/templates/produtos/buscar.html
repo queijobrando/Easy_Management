@@ -31,8 +31,11 @@
                 <input type="text" class="form-control" id="descricao" name="descricao">
             </div>
             <div class="col-md-4">
-                <label for="categoria_id" class="form-label">Categoria ID</label>
-                <input type="number" class="form-control" id="categoria_id" name="categoria_id">
+                <label for="categoria_id" class="form-label">Categoria</label>
+                <select id="categoria_id" name="categoria_id" class="form-select">
+                    <option value="">Todas</option>
+                    <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.nome}"></option>
+                </select>
             </div>
             <div class="col-md-4">
                 <label for="ativo" class="form-label">Ativo</label>

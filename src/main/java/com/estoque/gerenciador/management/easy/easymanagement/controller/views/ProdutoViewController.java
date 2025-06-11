@@ -30,7 +30,8 @@ public class ProdutoViewController {
     private CategoriaService categoriaService;
 
     @GetMapping("/buscar")
-    public String exibirFormularioBusca(){
+    public String exibirFormularioBusca(Model model){
+        model.addAttribute("categorias", categoriaService.buscarTodas());
         return "produtos/buscar";
     }
 
@@ -44,6 +45,7 @@ public class ProdutoViewController {
     ) {
         List<ProdutoDtoRetorno> produtos = produtoService.pesquisarPorExample(nome, descricao, categoria, ativo);
         model.addAttribute("produtos", produtos);
+        model.addAttribute("categorias", categoriaService.buscarTodas());
         return "produtos/buscar";
     }
 

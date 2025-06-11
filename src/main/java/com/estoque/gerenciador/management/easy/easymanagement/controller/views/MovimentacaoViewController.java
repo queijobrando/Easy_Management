@@ -9,7 +9,9 @@ import com.estoque.gerenciador.management.easy.easymanagement.exceptions.Entidad
 import com.estoque.gerenciador.management.easy.easymanagement.exceptions.MovimentacaoInvalidaException;
 import com.estoque.gerenciador.management.easy.easymanagement.exceptions.RegistroDuplicadoException;
 import com.estoque.gerenciador.management.easy.easymanagement.model.enuns.TipoMovimentacao;
+import com.estoque.gerenciador.management.easy.easymanagement.service.EstoqueLoteService;
 import com.estoque.gerenciador.management.easy.easymanagement.service.MovimentacaoService;
+import com.estoque.gerenciador.management.easy.easymanagement.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,8 +29,12 @@ public class MovimentacaoViewController {
     @Autowired
     private MovimentacaoService movimentacaoService;
 
+    @Autowired
+    private ProdutoService produtoService;
+
     @GetMapping("/buscar")
-    public String exibirFormularioBusca(){
+    public String exibirFormularioBusca(Model model){
+        model.addAttribute("produtos", produtoService.buscarTodos());
         return "movimentacao/buscar";
     }
 
@@ -42,6 +48,7 @@ public class MovimentacaoViewController {
     ) {
         List<MovimentacaoDtoRetorno> movimentacoes = movimentacaoService.pesquisarPorExample(produto, lote, tipoMovimentacao, quantidade);
         model.addAttribute("movimentacoes", movimentacoes);
+        model.addAttribute("produtos", produtoService.buscarTodos());
         return "movimentacao/buscar";
     }
 
@@ -49,6 +56,7 @@ public class MovimentacaoViewController {
     @GetMapping("/cadastrar")
     public String exibirFormularioCadastro(Model model) {
         model.addAttribute("movimentacaoDto", new MovimentacaoDto());
+        model.addAttribute("produtos", produtoService.buscarTodos());
         return "movimentacao/cadastrar";
     }
 

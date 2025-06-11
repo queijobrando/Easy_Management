@@ -32,8 +32,11 @@
       </div>
 
       <div class="col-md-6">
-        <label for="produto_id" class="form-label">ID do Produto</label>
-        <input type="number" id="produto_id" th:field="*{produto_id}" class="form-control" placeholder="ID do produto">
+        <label for="produto_id" class="form-label">Produto</label>
+        <select id="produto_id" th:field="*{produto_id}" class="form-select">
+          <option value="" disabled selected>Selecione</option>
+          <option th:each="p : ${produtos}" th:value="${p.id}" th:text="${p.nome}"></option>
+        </select>
         <div class="text-danger" th:if="${#fields.hasErrors('produto_id')}" th:errors="*{produto_id}"></div>
       </div>
 

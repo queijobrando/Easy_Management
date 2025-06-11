@@ -20,7 +20,10 @@
     <form th:action="@{/movimentacao/buscar/resultados}" method="get" class="row g-3 mt-2">
       <div class="col-md-4">
         <label for="produto" class="form-label">Produto</label>
-        <input type="number" class="form-control" id="produto" name="produto_id">
+        <select id="produto" name="produto_id" class="form-select">
+          <option value="">Todas</option>
+          <option th:each="p : ${produtos}" th:value="${p.id}" th:text="${p.nome}"></option>
+        </select>
       </div>
       <div class="col-md-4">
         <label for="lote" class="form-label">Lote</label>

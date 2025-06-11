@@ -58,6 +58,10 @@ public class ProdutoService {
         return produtoMapper.toDto(produto);
     }
 
+    public List<ProdutoDtoRetorno> buscarTodos(){
+        return produtoRepository.findAll().stream().map(produtoMapper::toDto).toList();
+    }
+
     public List<ProdutoDtoRetorno> pesquisarPorExample(String nome, String descricao, Long categoria, Boolean ativo){
         var produto = new Produto();
         produto.setNome(nome);
