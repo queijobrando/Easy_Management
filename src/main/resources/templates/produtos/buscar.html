@@ -5,6 +5,8 @@
     <title>Buscar Produtos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 <div th:replace="layout :: navlinks"></div>
@@ -102,6 +104,9 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
+        const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
         function adicionarEventosDesativar() {
             const botoes = document.querySelectorAll(".btn-desativar");
             botoes.forEach(botao => {
@@ -123,7 +128,8 @@
                 fetch(`/api/produtos/desativar/${id}`, {
                     method: "DELETE",
                     headers: {
-                        "X-Requested-With": "XMLHttpRequest"
+                        "X-Requested-With": "XMLHttpRequest",
+                        [csrfHeader]: csrfToken
                     }
                 }).then(response => {
                     if (response.ok) {
@@ -162,7 +168,8 @@
                 fetch(`/api/produtos/deletar/${id}`, {
                     method: "DELETE",
                     headers: {
-                        "X-Requested-With": "XMLHttpRequest"
+                        "X-Requested-With": "XMLHttpRequest",
+                        [csrfHeader]: csrfToken
                     }
                 }).then(response => {
                     if (response.ok) {
