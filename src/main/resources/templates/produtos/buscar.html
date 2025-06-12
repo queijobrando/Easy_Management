@@ -15,7 +15,7 @@
 
 <div class="container mt-4">
 
-    <div sec:authorize="hasRole('ADMIN')" class="col mb-3">
+    <div sec:authorize="hasAuthority('PRODUTO_CADASTRAR')" class="col mb-3">
         <a th:href="@{/produtos/cadastrar}" class="btn btn-success ms-2">Novo Produto</a>
     </div>
 
@@ -64,7 +64,7 @@
                 <th>Unidade</th>
                 <th>Ativo</th>
                 <th>Usuario</th>
-                <th sec:authorize="hasRole('ADMIN')">Ação</th>
+                <th sec:authorize="hasAuthority('PRODUTO_DESATIVAR') or hasAuthority('PRODUTO_DELETAR')">Ação</th>
             </tr>
             </thead>
             <tbody>
@@ -77,14 +77,16 @@
                 <td th:text="${produto.unidade}"></td>
                 <td th:text="${produto.ativo ? 'Sim' : 'Não'}"></td>
                 <td th:text="${produto.usuario_login}"></td>
-                <td sec:authorize="hasRole('ADMIN')">
-                    <button type="button"
+                <td sec:authorize="hasAuthority('PRODUTO_DESATIVAR') or hasAuthority('PRODUTO_DELETAR')">
+                    <button sec:authorize="hasAuthority('PRODUTO_DESATIVAR')"
+                            type="button"
                             class="btn btn-danger btn-sm btn-desativar"
                             th:attr="data-id=${produto.id}"
                             th:if="${produto.ativo}">
                         Desativar
                     </button >
-                    <button type="button"
+                    <button sec:authorize="hasAuthority('PRODUTO_DELETAR')"
+                            type="button"
                             class="btn btn-dark btn-sm btn-deletar"
                             th:attr="data-id=${produto.id}"
                             th:if="${!produto.ativo}">

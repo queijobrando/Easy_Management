@@ -19,14 +19,14 @@ public class EstoqueLoteController implements GenericController{
     private EstoqueLoteService estoqueLoteService;
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
+    @PreAuthorize("hasAuthority('ESTOQUE_BUSCAR')")
     public ResponseEntity<EstoqueLoteDtoRetorno> buscarPorId(@PathVariable Long id){
         EstoqueLoteDtoRetorno lote = estoqueLoteService.buscarEstoqueLoteId(id);
         return ResponseEntity.ok(lote);
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
+    @PreAuthorize("hasAuthority('ESTOQUE_BUSCAR')")
     public ResponseEntity<List<EstoqueLoteDtoRetorno>> buscarPorExemplo(
             @RequestParam(value = "lote_id", required = false) Long lote,
             @RequestParam(value = "produto_id", required = false) Long produto,
@@ -37,7 +37,7 @@ public class EstoqueLoteController implements GenericController{
     }
 
     @GetMapping("/total/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
+    @PreAuthorize("hasAuthority('ESTOQUE_BUSCAR')")
     public ResponseEntity<String> exibirValorTotalProdutoEstoque(@PathVariable Long id){
         int total = estoqueLoteService.exibirQuantidadeTotalProdutoEstoque(id);
 

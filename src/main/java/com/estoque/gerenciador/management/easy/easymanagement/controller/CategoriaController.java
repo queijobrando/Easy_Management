@@ -21,7 +21,7 @@ public class CategoriaController implements GenericController {
 
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('CATEGORIA_CADASTRAR')")
     public ResponseEntity<CategoriaDtoRetorno> cadastrarCategoria(@RequestBody @Valid CategoriaDto dto){
         CategoriaDtoRetorno categoria = categoriaService.cadastrarCategoria(dto);
 
@@ -31,14 +31,14 @@ public class CategoriaController implements GenericController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
+    @PreAuthorize("hasAuthority('CATEGORIA_BUSCAR')")
     public ResponseEntity<CategoriaDtoRetorno> buscarPorId(@PathVariable Long id){
         CategoriaDtoRetorno categoria = categoriaService.buscarCategoriaId(id);
         return ResponseEntity.ok(categoria);
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
+    @PreAuthorize("hasAuthority('CATEGORIA_BUSCAR')")
     public ResponseEntity<List<CategoriaDtoRetorno>> buscarPorExemplo(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "descricao", required = false) String descricao,
@@ -50,7 +50,7 @@ public class CategoriaController implements GenericController {
 
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('CATEGORIA_DESATIVAR')")
     public ResponseEntity<String> desativarCategoria(@PathVariable Long id){
         categoriaService.desativarCategoria(id);
         return ResponseEntity.ok("Categoria desativada com Sucesso");

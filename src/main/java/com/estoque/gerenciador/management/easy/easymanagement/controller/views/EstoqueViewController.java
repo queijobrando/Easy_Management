@@ -6,6 +6,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.model.enuns.TipoMo
 import com.estoque.gerenciador.management.easy.easymanagement.service.EstoqueLoteService;
 import com.estoque.gerenciador.management.easy.easymanagement.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +26,14 @@ public class EstoqueViewController {
     private ProdutoService produtoService;
 
     @GetMapping("/buscar")
+    @PreAuthorize("hasAuthority('ESTOQUE_BUSCAR')")
     public String exibirFormularioBusca(Model model){
         model.addAttribute("produtos", produtoService.buscarTodos());
         return "estoque/buscar";
     }
 
     @GetMapping("/buscar/resultados")
+    @PreAuthorize("hasAuthority('ESTOQUE_BUSCAR')")
     public String buscarMovimentacoes(
             @RequestParam(value = "lote_id", required = false) Long lote,
             @RequestParam(value = "produto_id", required = false) Long produto,

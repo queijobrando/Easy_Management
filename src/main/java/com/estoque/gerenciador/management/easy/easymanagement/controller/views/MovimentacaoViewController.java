@@ -33,12 +33,14 @@ public class MovimentacaoViewController {
     private ProdutoService produtoService;
 
     @GetMapping("/buscar")
+    @PreAuthorize("hasAuthority('MOVIMENTACAO_BUSCAR')")
     public String exibirFormularioBusca(Model model){
         model.addAttribute("produtos", produtoService.buscarTodos());
         return "movimentacao/buscar";
     }
 
     @GetMapping("/buscar/resultados")
+    @PreAuthorize("hasAuthority('MOVIMENTACAO_BUSCAR')")
     public String buscarMovimentacoes(
             @RequestParam(value = "produto_id", required = false) Long produto,
             @RequestParam(value = "lote_id", required = false) Long lote,
@@ -54,6 +56,7 @@ public class MovimentacaoViewController {
 
 
     @GetMapping("/cadastrar")
+    @PreAuthorize("hasAuthority('MOVIMENTACAO_CADASTRAR')")
     public String exibirFormularioCadastro(Model model) {
         model.addAttribute("movimentacaoDto", new MovimentacaoDto());
         model.addAttribute("produtos", produtoService.buscarTodos());
@@ -61,6 +64,7 @@ public class MovimentacaoViewController {
     }
 
     @PostMapping("/cadastrar")
+    @PreAuthorize("hasAuthority('MOVIMENTACAO_CADASTRAR')")
     public String cadastrarMovimentacao(@Valid @ModelAttribute("movimentacaoDto") MovimentacaoDto movimentacaoDto,
                                    BindingResult result,
                                    Model model) {

@@ -14,16 +14,26 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
 
     @Column
-    public String login;
+    private String login;
 
     @Column
-    public String senha;
+    private String nome;
 
-    @Type(ListArrayType.class)
-    @Column(name = "roles", columnDefinition = "varchar[]")
-    public List<String> roles;
+    @Column
+    private String email;
+
+    @Column
+    private String senha;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "usuario_grupos",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "grupo_id")
+    )
+    private List<Grupo> grupos;
 
 }

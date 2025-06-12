@@ -40,19 +40,6 @@ public class SecurityConfiguration {
 
     @Bean
     public UserDetailsService userDetailsService(UsuarioService service){
-
-       /* UserDetails user1 = User.builder()
-                .username("usuario")
-                .password(encoder.encode("123"))
-                .roles("USER")
-                .build();
-
-        UserDetails user2 = User.builder()
-                .username("admin")
-                .password(encoder.encode("321"))
-                .roles("ADMIN")
-                .build();
-        */
         return new CustomUserDetailsService(service);
     }
 }

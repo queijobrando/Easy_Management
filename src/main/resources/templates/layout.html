@@ -16,16 +16,16 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/}">Início</a>
                     </li>
-                    <li class="nav-item">
+                    <li sec:authorize="hasAuthority('PRODUTO_BUSCAR')" class="nav-item">
                         <a class="nav-link" th:href="@{/produtos/buscar}">Produtos</a>
                     </li>
-                    <li class="nav-item">
+                    <li sec:authorize="hasAuthority('CATEGORIA_BUSCAR')" class="nav-item">
                         <a class="nav-link" th:href="@{/categorias/buscar}">Categorias</a>
                     </li>
-                    <li class="nav-item">
+                    <li sec:authorize="hasAuthority('MOVIMENTACAO_BUSCAR')" class="nav-item">
                         <a class="nav-link" th:href="@{/movimentacao/buscar}">Movimentação</a>
                     </li>
-                    <li class="nav-item">
+                    <li sec:authorize="hasAuthority('ESTOQUE_BUSCAR')" class="nav-item">
                         <a class="nav-link" th:href="@{/estoque/buscar}">Estoque</a>
                     </li>
                 </ul>
