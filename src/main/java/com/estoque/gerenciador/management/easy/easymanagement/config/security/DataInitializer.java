@@ -46,6 +46,7 @@ public class DataInitializer {
             permissoes.add(buscarPermissao("CATEGORIA_BUSCAR"));
             permissoes.add(buscarPermissao("CATEGORIA_CADASTRAR"));
             permissoes.add(buscarPermissao("CATEGORIA_DESATIVAR"));
+            permissoes.add(buscarPermissao("ADMIN"));
 
             Grupo grupoAdmin = criarGrupo("ADMIN", permissoes);
 

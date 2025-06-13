@@ -15,7 +15,7 @@ public class Grupo {
     private Long id;
 
     @Column
-    private String nome;
+    private String nome; // deve ser unico
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

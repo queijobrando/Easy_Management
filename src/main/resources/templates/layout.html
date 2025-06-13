@@ -28,6 +28,9 @@
                     <li sec:authorize="hasAuthority('ESTOQUE_BUSCAR')" class="nav-item">
                         <a class="nav-link" th:href="@{/estoque/buscar}">Estoque</a>
                     </li>
+                    <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/grupos/buscar}">Grupos</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
