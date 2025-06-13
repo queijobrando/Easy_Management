@@ -15,11 +15,7 @@
     <p><strong>Login:</strong> <span th:text="${perfil.login}"></span></p>
     <p><strong>Email:</strong> <span th:text="${perfil.email}"></span></p>
     <p><strong>Nome:</strong> <span th:text="${perfil.nome}"></span></p>
-    <p><strong>Grupos:</strong>
-      <span th:each="grupo, iterStat : ${perfil.grupos}">
-        <span th:text="${grupo.nome}"></span><span th:if="${!iterStat.last}">, </span>
-    </span>
-    </p>
+    <p><strong>Grupo:</strong> <span th:text="${perfil.grupo_nome}"></span></p>
   </div>
 </div>
 </body>

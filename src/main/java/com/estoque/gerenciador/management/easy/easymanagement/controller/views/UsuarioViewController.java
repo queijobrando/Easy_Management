@@ -2,7 +2,9 @@ package com.estoque.gerenciador.management.easy.easymanagement.controller.views;
 
 import com.estoque.gerenciador.management.easy.easymanagement.config.security.SecurityService;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.usuario.UsuarioDto;
+import com.estoque.gerenciador.management.easy.easymanagement.dto.usuario.UsuarioDtoRetorno;
 import com.estoque.gerenciador.management.easy.easymanagement.exceptions.RegistroDuplicadoException;
+import com.estoque.gerenciador.management.easy.easymanagement.mapper.UsuarioMapper;
 import com.estoque.gerenciador.management.easy.easymanagement.service.GrupoService;
 import com.estoque.gerenciador.management.easy.easymanagement.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -28,9 +30,14 @@ public class UsuarioViewController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private UsuarioMapper usuarioMapper;
+
     @GetMapping("/perfil")
     public String exibirPerfil(Model model){
-        model.addAttribute("perfil", securityService.obterUsuarioLogado());
+        UsuarioDtoRetorno perfil = usuarioMapper.toDto(securityService.obterUsuarioLogado());
+
+        model.addAttribute("perfil", perfil);
         return "usuarios/perfil";
     }
 
