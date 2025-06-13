@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Usuarios</title>
@@ -26,6 +26,7 @@
                 <th>Nome</th>
                 <th>Email</th>
                 <th>Grupo</th>
+                <th>Ativo</th>
                 <th>Ação</th>
             </tr>
             </thead>
@@ -36,10 +37,22 @@
                 <td th:text="${usuario.nome}"></td>
                 <td th:text="${usuario.email}"></td>
                 <td th:text="${usuario.grupo_nome}"></td>
-                <td>
-                    <button type="button"
-                            class="btn btn-danger btn-sm"
-                            >Deletar</button>
+                <td th:text="${usuario.ativo ? 'Sim' : 'Não'}"></td>
+                <td sec:authorize="hasAuthority('USUARIO_DESATIVAR') or hasAuthority('USUARIO_DELETAR')">
+                    <button sec:authorize="hasAuthority('USUARIO_DESATIVAR')"
+                            type="button"
+                            class="btn btn-danger btn-sm btn-desativar"
+                            th:attr="data-id=${usuario.id}"
+                            th:if="${usuario.ativo}">
+                        Desativar
+                    </button >
+                    <button sec:authorize="hasAuthority('PRODUTO_DELETAR')"
+                            type="button"
+                            class="btn btn-dark btn-sm btn-deletar"
+                            th:attr="data-id=${usuario.id}"
+                            th:if="${!usuario.ativo}">
+                        Deletar
+                    </button>
                 </td>
             </tr>
             </tbody>
@@ -47,6 +60,95 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+        function adicionarEventosDesativar() {
+            const botoes = document.querySelectorAll(".btn-desativar");
+            botoes.forEach(botao => {
+                botao.addEventListener("click", desativarUsuario);
+            });
+        }
+
+        function adicionarEventosDeletar() {
+            const botoesDeletar = document.querySelectorAll(".btn-deletar");
+            botoesDeletar.forEach(botao => {
+                botao.addEventListener("click", deletarUsuario);
+            });
+        }
+
+        function desativarUsuario() {
+            const id = this.getAttribute("data-id");
+
+            if (confirm("Tem certeza que deseja desativar este usuario?")) {
+                fetch(`/api/usuarios/desativar/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        [csrfHeader]: csrfToken
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        const linha = this.closest("tr");
+
+                        // Atualiza o valor da coluna "Ativo" para "Não"
+                        linha.querySelector("td:nth-child(6)").textContent = "Não";
+
+                        // Remove o botão "Desativar"
+                        this.remove();
+
+                        // Cria o botão "Deletar"
+                        const botaoDeletar = document.createElement("button");
+                        botaoDeletar.textContent = "Deletar";
+                        botaoDeletar.className = "btn btn-dark btn-sm btn-deletar";
+                        botaoDeletar.setAttribute("data-id", id);
+                        botaoDeletar.addEventListener("click", deletarUsuario);
+
+                        // Adiciona o botão na mesma célula
+                        const celulaAcoes = linha.querySelector("td:last-child");
+                        celulaAcoes.appendChild(botaoDeletar);
+                    } else {
+                        alert("Erro ao desativar o usuario.");
+                    }
+                }).catch(error => {
+                    alert("Erro de comunicação com o servidor.");
+                    console.error(error);
+                });
+            }
+        }
+
+        function deletarUsuario() {
+            const id = this.getAttribute("data-id");
+
+            if (confirm("Tem certeza que deseja deletar este usuario? (IRREVERSÍVEL)")) {
+                fetch(`/api/usuarios/deletar/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        [csrfHeader]: csrfToken
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        const linha = this.closest("tr");
+                        linha.remove();
+                    } else {
+                        alert("Erro ao deletar o usuario.");
+                    }
+                }).catch(error => {
+                    alert("Erro de comunicação com o servidor.");
+                    console.error(error);
+                });
+            }
+        }
+
+        // Inicia os eventos
+        adicionarEventosDesativar();
+        adicionarEventosDeletar();
+    });
+</script>
 
 </body>
 </html>

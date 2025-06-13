@@ -2,6 +2,7 @@ package com.estoque.gerenciador.management.easy.easymanagement.service;
 
 import com.estoque.gerenciador.management.easy.easymanagement.dto.usuario.UsuarioDto;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.usuario.UsuarioDtoRetorno;
+import com.estoque.gerenciador.management.easy.easymanagement.exceptions.EntidadeNaoEncontradaException;
 import com.estoque.gerenciador.management.easy.easymanagement.exceptions.RegistroDuplicadoException;
 import com.estoque.gerenciador.management.easy.easymanagement.mapper.UsuarioMapper;
 import com.estoque.gerenciador.management.easy.easymanagement.model.Usuario;
@@ -10,6 +11,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.repository.Usuario
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -51,5 +53,22 @@ public class UsuarioService {
 
     public List<UsuarioDtoRetorno> buscarTodos(){
         return usuarioRepository.findAll().stream().map(usuarioMapper::toDto).toList();
+    }
+
+    @Transactional
+    public void desativarUsuario(Long id){
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuario não encontrado"));
+
+        usuario.setAtivo(false);
+        usuarioRepository.save(usuario);
+    }
+
+    @Transactional
+    public void deletarUsuario(Long id){
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuario não encontrado"));
+
+        usuarioRepository.delete(usuario);
     }
 }

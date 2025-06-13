@@ -43,9 +43,15 @@ public class DataInitializer {
             permissoes.add(buscarPermissao("MOVIMENTACAO_BUSCAR"));
             permissoes.add(buscarPermissao("MOVIMENTACAO_DELETAR"));
             permissoes.add(buscarPermissao("ESTOQUE_BUSCAR"));
+            permissoes.add(buscarPermissao("ESTOQUE_DELETAR"));
             permissoes.add(buscarPermissao("CATEGORIA_BUSCAR"));
             permissoes.add(buscarPermissao("CATEGORIA_CADASTRAR"));
             permissoes.add(buscarPermissao("CATEGORIA_DESATIVAR"));
+            permissoes.add(buscarPermissao("CATEGORIA_DELETAR"));
+            permissoes.add(buscarPermissao("USUARIO_CADASTRAR"));
+            permissoes.add(buscarPermissao("USUARIO_BUSCAR"));
+            permissoes.add(buscarPermissao("USUARIO_DESATIVAR"));
+            permissoes.add(buscarPermissao("USUARIO_DELETAR"));
             permissoes.add(buscarPermissao("ADMIN"));
 
             Grupo grupoAdmin = criarGrupo("ADMIN", permissoes);

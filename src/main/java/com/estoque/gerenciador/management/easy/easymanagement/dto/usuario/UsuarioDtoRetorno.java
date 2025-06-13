@@ -8,6 +8,7 @@ public record UsuarioDtoRetorno(
         String login,
         String nome,
         String email,
-        String grupo_nome
+        String grupo_nome,
+        Boolean ativo
 ) {
 }
