@@ -1,6 +1,8 @@
 package com.estoque.gerenciador.management.easy.easymanagement.service;
 
 import com.estoque.gerenciador.management.easy.easymanagement.dto.grupo.GrupoDto;
+import com.estoque.gerenciador.management.easy.easymanagement.exceptions.EntidadeNaoEncontradaException;
+import com.estoque.gerenciador.management.easy.easymanagement.exceptions.RegistroDuplicadoException;
 import com.estoque.gerenciador.management.easy.easymanagement.mapper.GrupoMapper;
 import com.estoque.gerenciador.management.easy.easymanagement.model.Grupo;
 import com.estoque.gerenciador.management.easy.easymanagement.model.Permissao;
@@ -11,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 @Service
 public class GrupoService {
@@ -26,6 +31,11 @@ public class GrupoService {
 
     @Transactional
     public void salvar(GrupoDto grupoDto){
+        if (grupoRepository.findByNomeIgnoreCase(grupoDto.getNome()).isPresent()){
+            throw new  RegistroDuplicadoException("Já existe um grupo com esse nome.");
+        }
+
+
         Grupo grupo = grupoMapper.toEntity(grupoDto);
 
         var permissoes = permissaoRepository.findAllById(grupoDto.getPermissoes());
@@ -43,8 +53,21 @@ public class GrupoService {
         return grupoRepository.findAll().stream().toList();
     }
 
-    public List<Permissao> buscarTodasPermissoes(){
-        return permissaoRepository.findAll().stream().toList();
+    public Map<String, List<Permissao>> buscarPermissoesAgrupadas() {
+        List<Permissao> todas = permissaoRepository.findAll();
+
+        return todas.stream()
+                .filter(p -> !p.getNome().equalsIgnoreCase("ADMIN"))
+                .collect(Collectors.groupingBy(Permissao::getArea, TreeMap::new, Collectors.toList()));
     }
+
+    @Transactional
+    public void deletarGrupo(Long id){
+        Grupo grupo = grupoRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Grupo não encontrado"));
+
+        grupoRepository.deleteById(id);
+    }
+
 
 }

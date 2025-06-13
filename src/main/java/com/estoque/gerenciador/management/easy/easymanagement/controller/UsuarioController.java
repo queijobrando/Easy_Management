@@ -9,14 +9,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("usuarios")
+@RequestMapping("api/usuarios")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('USUARIO_CADASTRAR')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public void salvar(@RequestBody @Valid UsuarioDto dto){
         usuarioService.salvar(dto);

@@ -55,7 +55,7 @@ public class DataInitializer {
             admin.setNome("Admin");
             admin.setEmail("admin@sistema.com");
             admin.setSenha(passwordEncoder.encode("admin123"));
-            admin.setGrupos(List.of(grupoAdmin));
+            admin.setGrupo(grupoAdmin);
             usuarioRepository.save(admin);
         }
     }

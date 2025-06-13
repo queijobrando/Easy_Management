@@ -14,5 +14,8 @@ public class Permissao {
     private Long id;
 
     @Column
+    private String area;
+
+    @Column
     private String nome;
 }

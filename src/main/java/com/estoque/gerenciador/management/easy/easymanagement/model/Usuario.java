@@ -28,12 +28,8 @@ public class Usuario {
     @Column
     private String senha;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "usuario_grupos",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "grupo_id")
-    )
-    private List<Grupo> grupos;
+    @ManyToOne
+    @JoinColumn(name = "grupo_id")
+    private Grupo grupo;
 
 }

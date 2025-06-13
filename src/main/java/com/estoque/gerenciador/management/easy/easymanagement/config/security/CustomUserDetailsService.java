@@ -27,8 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         // Permissões via grupos
-        Set<GrantedAuthority> authorities = usuario.getGrupos().stream()
-                .flatMap(grupo -> grupo.getPermissoes().stream())
+        Set<GrantedAuthority> authorities = usuario.getGrupo().getPermissoes().stream()
                 .map(permissao -> new SimpleGrantedAuthority(permissao.getNome()))
                 .collect(Collectors.toSet());
 

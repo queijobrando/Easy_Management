@@ -1,24 +1,31 @@
 package com.estoque.gerenciador.management.easy.easymanagement.dto.usuario;
 
-import com.estoque.gerenciador.management.easy.easymanagement.model.Grupo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
-public record UsuarioDto(
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class UsuarioDto {
+
         @NotBlank
-        String login,
+        String login;
         @NotBlank
-        String nome,
+        String nome;
         @Email
         @NotBlank
-        String email,
+        String email;
         @NotBlank
-        String senha,
+        String senha;
         @NotNull
-        @NotEmpty
-        List<Long> gruposIds) {
+        Long grupo;
 }

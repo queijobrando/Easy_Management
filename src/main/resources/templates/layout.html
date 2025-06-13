@@ -29,6 +29,9 @@
                         <a class="nav-link" th:href="@{/estoque/buscar}">Estoque</a>
                     </li>
                     <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/usuarios/buscar}">Usuarios</a>
+                    </li>
+                    <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
                         <a class="nav-link" th:href="@{/grupos/buscar}">Grupos</a>
                     </li>
                 </ul>
