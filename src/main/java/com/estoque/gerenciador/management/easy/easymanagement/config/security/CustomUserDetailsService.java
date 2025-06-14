@@ -26,6 +26,10 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Usuário não encontrado!");
         }
 
+        if (Boolean.FALSE.equals(usuario.getAtivo())) {
+            throw new UsernameNotFoundException("Usuário desativado. Acesso não permitido.");
+        }
+
         // Permissões via grupos
         Set<GrantedAuthority> authorities = usuario.getGrupo().getPermissoes().stream()
                 .map(permissao -> new SimpleGrantedAuthority(permissao.getNome()))
