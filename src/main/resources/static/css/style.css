@@ -6,6 +6,7 @@
 
 body {
     background-color: var(--background-light);
+    display: flex;
 }
 
 .btn-green {
@@ -37,3 +38,42 @@ body {
 .table-success {
     background-color: #c8e6c9;
 }
+
+
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    position: fixed;
+    background-color: #198754;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 0.3rem;
+    transition: background-color 0.3s ease, padding-left 0.3s ease;
+}
+
+.sidebar a:hover {
+    background-color: #145c43;
+    padding-left: 16px;
+}
+
+.content {
+    margin-left: 220px;
+    padding: 20px;
+    width: 100%;
+}
+
