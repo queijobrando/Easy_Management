@@ -63,6 +63,10 @@ public class EstoqueLoteService {
         return Optional.ofNullable(estoqueLotesRepository.somarQuantidadeProduto(id)).orElse(0);
     }
 
+    public List<EstoqueLoteDtoRetorno> exibirLotesDoProduto(Long id){
+        return estoqueLotesRepository.findAllByProduto_Id(id).stream().map(estoqueLoteMapper::toDto).toList();
+    }
+
 
 
 }
