@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Desativar Produto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="layout :: navlinks"></div>
+<div class="container mt-5">
+    <h3 class="mb-4">Desativar Produto</h3>
+
+    <!-- Alerta de erro -->
+    <div th:if="${erroMensagem}" class="alert alert-danger">
+        <span th:text="${erroMensagem}"></span>
+    </div>
+
+    <!-- Alerta de sucesso -->
+    <div th:if="${produtodesativado}" class="alert alert-success">
+        Produto desativado com sucesso!
+    </div>
+
+    <!-- Formulário de busca por ID -->
+    <form method="get" th:action="@{/produtos/desativar}" class="row g-3 mb-4">
+        <div class="col-auto">
+            <label for="id" class="form-label">ID do Produto</label>
+            <!-- Aqui mostramos o valor do ID buscado ou vazio -->
+            <input type="number" id="id" name="id" class="form-control"
+                   th:value="${produto != null} ? ${produto.id} : ''" required>
+        </div>
+        <div class="col-auto d-flex align-items-end">
+            <button type="submit" class="btn btn-primary">Buscar Produto</button>
+        </div>
+    </form>
+
+    <!-- Se encontrou o produto, mostra os dados e o botão de confirmação -->
+    <div th:if="${produto != null}" class="card p-4 shadow-sm">
+        <h5 class="mb-3 text-danger">Confirmar Desativação</h5>
+        <p><strong>ID:</strong> <span th:text="${produto.id}"></span></p>
+        <p><strong>Nome:</strong> <span th:text="${produto.nome}"></span></p>
+        <p><strong>Descrição:</strong> <span th:text="${produto.descricao}"></span></p>
+        <p><strong>Categoria:</strong> <span th:text="${produto.categoria_nome}"></span></p>
+        <p><strong>Status:</strong> <span th:text="${produto.ativo ? 'Ativo' : 'Inativo'}"></span></p>
+
+        <!-- Formulário para confirmar desativação -->
+        <form method="post" th:action="@{/produtos/desativar}">
+            <input type="hidden" name="id" th:value="${produto.id}">
+            <button type="submit" class="btn btn-danger">Sim, desativar</button>
+            <a th:href="@{/produtos/desativar}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>
