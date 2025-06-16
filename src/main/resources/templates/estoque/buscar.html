@@ -31,58 +31,47 @@
 
 <div class="content">
     <div class="container mt-4">
+        <div class="container my-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>Estoque</h2>
+                <a th:href="@{/movimentacao/cadastrar}" class="btn btn-success">+ Nova Movimentação</a>
+            </div>
 
-        <div class="card p-4 shadow-sm">
-            <h4 class="text-success">Buscar Lotes</h4>
-            <form th:action="@{/estoque/buscar/resultados}" method="get" class="row g-3 mt-2">
-                <div class="col-md-4">
-                    <label for="produto" class="form-label">Produto</label>
-                    <select id="produto" name="produto_id" class="form-select">
-                        <option value="">Todos</option>
-                        <option th:each="p : ${produtos}" th:value="${p.id}" th:text="${p.nome}"></option>
-                    </select>
+            <div th:each="produto : ${produtos}" class="card mb-2 shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center"
+                     style="cursor: pointer;"
+                     onclick="toggleLotes('lotes-[[${produto.id}]]')">
+                    <div>
+                        <h5 th:text="${produto.nome}">Nome do Produto</h5>
+                        <p class="mb-0">
+                            ID: <span th:text="${produto.id}">1</span> |
+                            Categoria: <span th:text="${produto.categoria_nome}">Categoria</span> |
+                            Total em estoque: <span th:text="${produto.totalQuantidade}">0</span>
+                        </p>
+                    </div>
+                    <i class="bi bi-chevron-down"></i>
                 </div>
-                <div class="col-md-4">
-                    <label for="lote" class="form-label">ID Lote</label>
-                    <input type="number" class="form-control" id="lote" name="lote_id">
+
+                <div th:id="'lotes-' + ${produto.id}" class="lotes-collapse d-none p-3 bg-light">
+                    <div th:each="lote : ${produto.lotes}" class="card mb-2">
+                        <div class="card-body">
+                            <h6 class="card-title">Lote <span th:text="${lote.id}">#123</span></h6>
+                            <p class="mb-1">Quantidade: <span th:text="${lote.quantidade}">10</span></p>
+                            <p class="mb-1">Validade: <span th:text="${#temporals.format(lote.validade, 'dd/MM/yyyy')}">01/01/2025</span></p>
+                            <p class="mb-1">Status: <span th:text="${lote.status}">Ativo</span></p>
+
+                            <div class="mt-2">
+                                <a th:href="@{/movimentacao/entrada/{id}(id=${lote.id})}" class="btn btn-outline-success btn-sm me-2">Entrada</a>
+                                <a th:href="@{/movimentacao/saida/{id}(id=${lote.id})}" class="btn btn-outline-warning btn-sm me-2">Saída</a>
+                                <a th:href="@{/lotes/delete/{id}(id=${lote.id})}" class="btn btn-outline-danger btn-sm">Excluir</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="codigo_de_barras" class="form-label">Código de Barras do Lote</label>
-                    <input type="number" class="form-control" id="codigo_de_barras" name="codigo_de_barras">
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-success">Buscar</button>
-                </div>
-            </form>
+            </div>
         </div>
 
-        <div class="mt-4" th:if="${lotes != null and !lotes.isEmpty()}">
-            <h5 class="text-success">Resultados:</h5>
-            <table class="table table-hoover table-bordered table-striped mt-2">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Produto</th>
-                    <th>Quantidade no Lote</th>
-                    <th>Código de Barras</th>
-                    <th>Validade</th>
-                    <th>Data Cadastro</th>
-                    <th>Data Atualização</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="lote : ${lotes}">
-                    <td th:text="${lote.id}"></td>
-                    <td th:text="${lote.produto_nome}"></td>
-                    <td th:text="${lote.quantidade_lote}"></td>
-                    <td th:text="${lote.codigo_de_barras}"></td>
-                    <td th:text="${lote.validade}"></td>
-                    <td th:text="${lote.data_cadastro}"></td>
-                    <td th:text="${lote.data_atualizacao}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+
     </div>
 </div>
 
