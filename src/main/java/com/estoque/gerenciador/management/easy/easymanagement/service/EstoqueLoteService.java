@@ -7,8 +7,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.model.EstoqueLotes
 import com.estoque.gerenciador.management.easy.easymanagement.repository.EstoqueLotesRepository;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,8 +62,10 @@ public class EstoqueLoteService {
         return Optional.ofNullable(estoqueLotesRepository.somarQuantidadeProduto(id)).orElse(0);
     }
 
-    public List<EstoqueLoteDtoRetorno> exibirLotesDoProduto(Long id){
-        return estoqueLotesRepository.findAllByProduto_Id(id).stream().map(estoqueLoteMapper::toDto).toList();
+    public Page<EstoqueLoteDtoRetorno> exibirLotesDoProduto(Long id, int numeroPagina, int tamanhoPagina) {
+        Pageable pageable = PageRequest.of(numeroPagina, tamanhoPagina);
+        Page<EstoqueLotes> paginaLotes = estoqueLotesRepository.findAllByProduto_Id(id, pageable);
+        return paginaLotes.map(estoqueLoteMapper::toDto);
     }
 
 

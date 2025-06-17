@@ -35,7 +35,6 @@ public class EstoqueViewController {
         List<ProdutoEstoqueViewDto> produtosEstoque = produtos.stream().map(produto -> {
             Long produtoId = produto.id();
             Integer total = estoqueLoteService.exibirQuantidadeTotalProdutoEstoque(produtoId);
-            List<EstoqueLoteDtoRetorno> lotes = estoqueLoteService.exibirLotesDoProduto(produtoId);
 
             return new ProdutoEstoqueViewDto(
                     produto.id(),
@@ -49,7 +48,7 @@ public class EstoqueViewController {
                     produto.perecivel(),
                     produto.ativo(),
                     total,
-                    lotes
+                    null // ← lotes agora são carregados via AJAX
             );
         }).toList();
 

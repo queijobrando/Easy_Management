@@ -5,6 +5,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.dto.movimentacao.M
 import com.estoque.gerenciador.management.easy.easymanagement.model.enuns.TipoMovimentacao;
 import com.estoque.gerenciador.management.easy.easymanagement.service.EstoqueLoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,17 @@ public class EstoqueLoteController implements GenericController{
     public ResponseEntity<EstoqueLoteDtoRetorno> buscarPorId(@PathVariable Long id){
         EstoqueLoteDtoRetorno lote = estoqueLoteService.buscarEstoqueLoteId(id);
         return ResponseEntity.ok(lote);
+    }
+
+    @GetMapping("/produto/{id}/lotes")
+    @PreAuthorize("hasAuthority('ESTOQUE_BUSCAR')")
+    public ResponseEntity<Page<EstoqueLoteDtoRetorno>> buscarLotesPorProduto(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "2") int tamanho) {
+
+        Page<EstoqueLoteDtoRetorno> lotesPaginados = estoqueLoteService.exibirLotesDoProduto(id, pagina, tamanho);
+        return ResponseEntity.ok(lotesPaginados);
     }
 
     @GetMapping
