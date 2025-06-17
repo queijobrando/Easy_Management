@@ -98,8 +98,10 @@
                                 <p class="mb-1">Código de Barras: ${lote.codigo_de_barras}</p>
                                 <p class="mb-1">Data Cadastro: ${new Date(lote.data_cadastro).toLocaleDateString()}</p>
                                 <div class="mt-2">
-                                    <a href="/movimentacao/entrada/${lote.id}" class="btn btn-outline-success btn-sm me-2">Entrada</a>
-                                    <a href="/movimentacao/saida/${lote.id}" class="btn btn-outline-warning btn-sm me-2">Saída</a>
+                                    <a href="/movimentacao/cadastrar?tipo=ENTRADA&lote=${lote.id}&produto=${lote.produto_id}"
+                                    class="btn btn-outline-success btn-sm me-2">Entrada</a>
+                                    <a href="/movimentacao/cadastrar?tipo=SAIDA&lote=${lote.id}&produto=${lote.produto_id}"
+                                    class="btn btn-outline-warning btn-sm me-2">Saída</a>
                                     <a href="/lotes/delete/${lote.id}" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3-fill"></i></a>
                                 </div>
                             </div>

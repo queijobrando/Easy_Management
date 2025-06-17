@@ -57,8 +57,25 @@ public class MovimentacaoViewController {
 
     @GetMapping("/cadastrar")
     @PreAuthorize("hasAuthority('MOVIMENTACAO_CADASTRAR')")
-    public String exibirFormularioCadastro(Model model) {
-        model.addAttribute("movimentacaoDto", new MovimentacaoDto());
+    public String exibirFormularioCadastro(@RequestParam(required = false) String tipo,
+                                           @RequestParam(required = false) Long lote,
+                                           @RequestParam(required = false) Long produto,
+                                           Model model) {
+        MovimentacaoDto dto = new MovimentacaoDto();
+
+        if (tipo != null) {
+            dto.setTipo_movimentacao(TipoMovimentacao.valueOf(tipo.toUpperCase()));
+        }
+
+        if (lote != null) {
+            dto.setLote_id(lote);
+        }
+
+        if (produto != null) {
+            dto.setProduto_id(produto);
+        }
+
+        model.addAttribute("movimentacaoDto", dto);
         model.addAttribute("produtos", produtoService.buscarTodos());
         return "movimentacao/cadastrar";
     }
@@ -69,6 +86,7 @@ public class MovimentacaoViewController {
                                    BindingResult result,
                                    Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("produtos", produtoService.buscarTodos());
             return "movimentacao/cadastrar";
         }
 
@@ -82,6 +100,6 @@ public class MovimentacaoViewController {
             model.addAttribute("produtos", produtoService.buscarTodos());// mantém os dados preenchidos
         }
 
-        return "movimentacao/cadastrar";
+        return "estoque/buscar";
     }
 }

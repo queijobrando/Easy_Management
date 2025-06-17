@@ -28,15 +28,12 @@
   </div>
 </div>
 
-<div th:if="${cadastroSucesso}" class="alert alert-success">
-  Movimentação cadastrada com sucesso!
-</div>
-
-<div th:if="${erroMensagem}" class="alert alert-danger">
-  <span th:text="${erroMensagem}"></span>
-</div>
-
 <div class="content">
+
+  <div th:if="${erroMensagem}" class="alert alert-danger">
+    <span th:text="${erroMensagem}"></span>
+  </div>
+
   <div class="container mt-5">
     <div class="card shadow-sm p-4">
       <h4 class="text-success">Cadastro de Movimentação</h4>
