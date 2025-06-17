@@ -71,9 +71,36 @@ body {
     padding-left: 16px;
 }
 
+.card-body[onclick] {
+    transition: background-color 0.2s ease;
+}
+
+.card-body[onclick]:hover {
+    background-color: #f1f1f1;
+}
+
+.lotes-collapse {
+    transition: all 0.3s ease;
+}
+
+.rotate-icon {
+    transition: transform 0.3s ease;
+}
+
+.card.expanded .bi-chevron-down {
+    transform: rotate(180deg);
+}
+
+
 .content {
     margin-left: 220px;
     padding: 20px;
     width: 100%;
 }
+
+.page-item.active .page-link {
+        background-color: #198754;
+        border-color: #198754;
+        color: white;
+    }
 

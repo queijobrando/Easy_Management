@@ -10,6 +10,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.service.CategoriaS
 import com.estoque.gerenciador.management.easy.easymanagement.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,23 +32,18 @@ public class ProdutoViewController {
 
     @GetMapping("/buscar")
     @PreAuthorize("hasAuthority('PRODUTO_BUSCAR')")
-    public String exibirFormularioBusca(Model model){
-        model.addAttribute("categorias", categoriaService.buscarTodas());
-        return "produtos/buscar";
-    }
+    public String buscarProdutos(@RequestParam(defaultValue = "1") int pagina,
+                                 @RequestParam(name = "nome", required = false) String nome,
+                                 Model model) {
 
-    @GetMapping("/buscar/resultados")
-    @PreAuthorize("hasAuthority('PRODUTO_BUSCAR')")
-    public String buscarProdutos(
-            @RequestParam(value = "nome", required = false) String nome,
-            @RequestParam(value = "descricao", required = false) String descricao,
-            @RequestParam(value = "categoria_id", required = false) Long categoria,
-            @RequestParam(value = "ativo", required = false) Boolean ativo,
-            Model model
-    ) {
-        List<ProdutoDtoRetorno> produtos = produtoService.pesquisarPorExample(nome, descricao, categoria, ativo);
-        model.addAttribute("produtos", produtos);
-        model.addAttribute("categorias", categoriaService.buscarTodas());
+        Page<ProdutoDtoRetorno> paginaProdutos = produtoService.buscarTodosPorNome(pagina, nome == null ? "" : nome);
+
+        model.addAttribute("produtos", paginaProdutos.getContent());
+        model.addAttribute("paginaAtual", pagina);
+        model.addAttribute("totalPaginas", paginaProdutos.getTotalPages());
+        model.addAttribute("totalProdutos", paginaProdutos.getTotalElements());
+        model.addAttribute("nomeBuscado", nome);
+
         return "produtos/buscar";
     }
 

@@ -5,8 +5,10 @@ import com.estoque.gerenciador.management.easy.easymanagement.dto.categoria.Cate
 import com.estoque.gerenciador.management.easy.easymanagement.service.CategoriaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -37,15 +39,14 @@ public class CategoriaController implements GenericController {
         return ResponseEntity.ok(categoria);
     }
 
-    @GetMapping
+    @GetMapping("/buscar")
     @PreAuthorize("hasAuthority('CATEGORIA_BUSCAR')")
-    public ResponseEntity<List<CategoriaDtoRetorno>> buscarPorExemplo(
-            @RequestParam(value = "nome", required = false) String nome,
-            @RequestParam(value = "descricao", required = false) String descricao,
-            @RequestParam(value = "ativo", required = false) Boolean ativo
-    ){
-        List<CategoriaDtoRetorno> lista = categoriaService.pesquisarPorExample(nome, descricao, ativo);
-        return ResponseEntity.ok(lista);
+    public ResponseEntity<Page<CategoriaDtoRetorno>> buscarProdutos(@RequestParam(defaultValue = "1") int pagina,
+                                 @RequestParam(name = "nome", required = false) String nome,
+                                 Model model) {
+
+        Page<CategoriaDtoRetorno> paginaCategorias = categoriaService.buscarTodosPorNome(pagina, nome == null ? "" : nome);
+        return ResponseEntity.ok(paginaCategorias);
     }
 
 

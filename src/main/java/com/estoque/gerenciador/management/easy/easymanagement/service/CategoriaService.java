@@ -10,8 +10,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.model.Usuario;
 import com.estoque.gerenciador.management.easy.easymanagement.repository.CategoriaRepository;
 import com.estoque.gerenciador.management.easy.easymanagement.service.validator.CategoriaValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,24 +53,18 @@ public class CategoriaService {
         return categoriaRepository.findAll().stream().map(categoriaMapper::toDto).toList();
     }
 
-    public List<CategoriaDtoRetorno> pesquisarPorExample(String nome, String descricao, Boolean ativo){
-        var categoria = new Categorias();
-        categoria.setNome(nome);
-        categoria.setDescricao(descricao);
-        categoria.setAtivo(ativo);
+    public Page<CategoriaDtoRetorno> buscarTodosPorNome(int numeroPagina, String nome) {
+        Pageable pageable = PageRequest.of(numeroPagina - 1, 5);
 
-        ExampleMatcher matcher = ExampleMatcher
-                .matching()
-                .withIgnoreNullValues()
-                .withIgnoreCase()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        Page<Categorias> paginaCategorias;
 
-        return categoriaRepository
-                .findAll(Example.of(categoria, matcher))
-                .stream()
-                .map(categoriaMapper::toDto)
-                .toList();
+        if (nome == null || nome.trim().isEmpty()) {
+            paginaCategorias = categoriaRepository.findAll(pageable);
+        } else {
+            paginaCategorias = categoriaRepository.findByNomeContainingIgnoreCase(nome, pageable);
+        }
 
+        return paginaCategorias.map(categoriaMapper::toDto);
     }
 
     @Transactional

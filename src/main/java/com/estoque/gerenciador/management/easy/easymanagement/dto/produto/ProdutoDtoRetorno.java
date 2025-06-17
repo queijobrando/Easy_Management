@@ -15,8 +15,6 @@ public record ProdutoDtoRetorno(
         BigDecimal preco,
         Unidade unidade,
         Boolean perecivel,
-        Boolean ativo,
-        LocalDateTime data_cadastro,
-        LocalDateTime data_atualizacao
+        Boolean ativo
 ) {
 }

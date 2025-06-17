@@ -2,6 +2,8 @@ package com.estoque.gerenciador.management.easy.easymanagement.repository;
 
 import com.estoque.gerenciador.management.easy.easymanagement.model.Categorias;
 import com.estoque.gerenciador.management.easy.easymanagement.model.Produto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -20,4 +22,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
     @Query("SELECT COUNT(p) FROM Produto p WHERE p.ativo = false")
     Integer totalProdutosCadastradosDesativado();
+
+    Page<Produto> findByNomeContainingIgnoreCase(String nome, Pageable pageable);
+
 }

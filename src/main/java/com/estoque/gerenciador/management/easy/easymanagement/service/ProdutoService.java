@@ -11,8 +11,7 @@ import com.estoque.gerenciador.management.easy.easymanagement.repository.Categor
 import com.estoque.gerenciador.management.easy.easymanagement.repository.ProdutoRepository;
 import com.estoque.gerenciador.management.easy.easymanagement.service.validator.ProdutoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,34 +61,20 @@ public class ProdutoService {
         return produtoRepository.findAll().stream().map(produtoMapper::toDto).toList();
     }
 
-    public List<ProdutoDtoRetorno> pesquisarPorExample(String nome, String descricao, Long categoria, Boolean ativo){
-        var produto = new Produto();
-        produto.setNome(nome);
-        produto.setDescricao(descricao);
-        if (categoria != null) {
-            var categoriaEntidade = categoriaRepository.findById(categoria).orElse(null);
-            if (categoriaEntidade == null) {
-                return List.of();
-            }
-            produto.setCategoria(categoriaEntidade);
+    public Page<ProdutoDtoRetorno> buscarTodosPorNome(int numeroPagina, String nome) {
+        Pageable pageable = PageRequest.of(numeroPagina - 1, 5);
+
+        Page<Produto> paginaProdutos;
+
+        if (nome == null || nome.trim().isEmpty()) {
+            paginaProdutos = produtoRepository.findAll(pageable);
+        } else {
+            paginaProdutos = produtoRepository.findByNomeContainingIgnoreCase(nome, pageable);
         }
 
-        produto.setAtivo(ativo);
-        produto.setAtivo(ativo);
-
-        ExampleMatcher matcher = ExampleMatcher
-                .matching()
-                .withIgnoreNullValues()
-                .withIgnoreCase()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-
-        return produtoRepository
-                .findAll(Example.of(produto, matcher))
-                .stream()
-                .map(produtoMapper::toDto)
-                .toList();
-
+        return paginaProdutos.map(produtoMapper::toDto);
     }
+
 
 
     @Transactional

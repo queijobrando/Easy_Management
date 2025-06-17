@@ -3,7 +3,7 @@ package com.estoque.gerenciador.management.easy.easymanagement.controller.views;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.categoria.CategoriaDtoRetorno;
 import com.estoque.gerenciador.management.easy.easymanagement.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,20 +22,18 @@ public class CategoriaViewController {
 
     @GetMapping("/buscar")
     @PreAuthorize("hasAuthority('CATEGORIA_BUSCAR')")
-    public String exibirFormularioBusca(){
-        return "categorias/buscar";
-    }
+    public String buscarProdutos(@RequestParam(defaultValue = "1") int pagina,
+                                 @RequestParam(name = "nome", required = false) String nome,
+                                 Model model) {
 
-    @GetMapping("/buscar/resultados")
-    @PreAuthorize("hasAuthority('CATEGORIA_BUSCAR')")
-    public String buscarCategorias(
-            @RequestParam(value = "nome", required = false) String nome,
-            @RequestParam(value = "descricao", required = false) String descricao,
-            @RequestParam(value = "ativo", required = false) Boolean ativo,
-            Model model
-    ){
-        List<CategoriaDtoRetorno> categorias = categoriaService.pesquisarPorExample(nome, descricao, ativo);
-        model.addAttribute("categorias", categorias);
+        Page<CategoriaDtoRetorno> paginaCategorias = categoriaService.buscarTodosPorNome(pagina, nome == null ? "" : nome);
+
+        model.addAttribute("categorias", paginaCategorias.getContent());
+        model.addAttribute("paginaAtual", pagina);
+        model.addAttribute("totalPaginas", paginaCategorias.getTotalPages());
+        model.addAttribute("totalProdutos", paginaCategorias.getTotalElements());
+        model.addAttribute("nomeBuscado", nome);
+
         return "categorias/buscar";
     }
 }

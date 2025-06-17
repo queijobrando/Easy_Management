@@ -1,7 +1,9 @@
 package com.estoque.gerenciador.management.easy.easymanagement.controller.views;
 
 import com.estoque.gerenciador.management.easy.easymanagement.dto.estoqueLote.EstoqueLoteDtoRetorno;
+import com.estoque.gerenciador.management.easy.easymanagement.dto.estoqueLote.ProdutoEstoqueViewDto;
 import com.estoque.gerenciador.management.easy.easymanagement.dto.movimentacao.MovimentacaoDtoRetorno;
+import com.estoque.gerenciador.management.easy.easymanagement.dto.produto.ProdutoDtoRetorno;
 import com.estoque.gerenciador.management.easy.easymanagement.model.enuns.TipoMovimentacao;
 import com.estoque.gerenciador.management.easy.easymanagement.service.EstoqueLoteService;
 import com.estoque.gerenciador.management.easy.easymanagement.service.ProdutoService;
@@ -28,7 +30,30 @@ public class EstoqueViewController {
     @GetMapping("/buscar")
     @PreAuthorize("hasAuthority('ESTOQUE_BUSCAR')")
     public String exibirFormularioBusca(Model model){
-        model.addAttribute("produtos", produtoService.buscarTodos());
+        List<ProdutoDtoRetorno> produtos = produtoService.buscarTodos();
+
+        List<ProdutoEstoqueViewDto> produtosEstoque = produtos.stream().map(produto -> {
+            Long produtoId = produto.id();
+            Integer total = estoqueLoteService.exibirQuantidadeTotalProdutoEstoque(produtoId);
+            List<EstoqueLoteDtoRetorno> lotes = estoqueLoteService.exibirLotesDoProduto(produtoId);
+
+            return new ProdutoEstoqueViewDto(
+                    produto.id(),
+                    produto.nome(),
+                    produto.descricao(),
+                    produto.codigo_de_barras(),
+                    produto.categoria_nome(),
+                    produto.usuario_login(),
+                    produto.preco(),
+                    produto.unidade(),
+                    produto.perecivel(),
+                    produto.ativo(),
+                    total,
+                    lotes
+            );
+        }).toList();
+
+        model.addAttribute("produtos", produtosEstoque);
         return "estoque/buscar";
     }
 

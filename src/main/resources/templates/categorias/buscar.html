@@ -31,55 +31,51 @@
 
 <div class="content">
   <div class="container mt-4">
-    <div class="card p-4 shadow-sm">
-      <h4 class="text-success">Buscar Categorias</h4>
-      <form th:action="@{/categorias/buscar/resultados}" method="get" class="row g-3 mt-2">
-        <div class="col-md-4">
-          <label for="nome" class="form-label">Nome</label>
-          <input type="text" class="form-control" id="nome" name="nome">
-        </div>
-        <div class="col-md-4">
-          <label for="descricao" class="form-label">Descrição</label>
-          <input type="text" class="form-control" id="descricao" name="descricao">
-        </div>
-        <div class="col-md-4">
-          <label for="ativo" class="form-label">Ativo</label>
-          <select class="form-select" id="ativo" name="ativo">
-            <option value="">Todos</option>
-            <option value="true">Sim</option>
-            <option value="false">Não</option>
-          </select>
-        </div>
-        <div class="col-12">
-          <button type="submit" class="btn btn-success">Buscar</button>
-        </div>
+    <div>
+      <h5 class="text-success">Categorias:</h5>
+      <form th:action="@{/categorias/buscar}" method="get" class="mb-4 d-flex">
+        <input type="text" name="nome" th:value="${nomeBuscado}" placeholder="Buscar por nome..." class="form-control me-2">
+        <button type="submit" class="btn btn-primary">Buscar</button>
       </form>
-    </div>
-
-    <div class="mt-4" th:if="${categorias != null and !categorias.isEmpty()}">
-      <h5 class="text-success">Resultados:</h5>
       <table class="table table-hoover table-bordered table-striped mt-2">
+        <tbody>
         <thead>
         <tr>
           <th>ID</th>
           <th>Nome</th>
           <th>Descrição</th>
-          <th>Usuario</th>
           <th>Ativo</th>
         </tr>
         </thead>
-        <tbody>
         <tr th:each="categoria : ${categorias}">
           <td th:text="${categoria.id}"></td>
           <td th:text="${categoria.nome}"></td>
           <td th:text="${categoria.descricao}"></td>
-          <td th:text="${categoria.usuario_login}"></td>
           <td th:text="${categoria.ativo ? 'Sim' : 'Não'}"></td>
         </tr>
         </tbody>
       </table>
+      <!-- Paginação -->
+      <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination">
+          <li class="page-item" th:classappend="${paginaAtual == 1} ? 'disabled'">
+            <a class="page-link" th:href="@{/categorias/buscar(pagina=${paginaAtual - 1}, nome=${nomeBuscado})}">Anterior</a>
+          </li>
+
+          <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPaginas)}"
+              th:classappend="${i == paginaAtual} ? 'active'">
+            <a class="page-link" th:href="@{/categorias/buscar(pagina=${i}, nome=${nomeBuscado})}"
+               th:text="${i}">1</a>
+          </li>
+
+          <li class="page-item" th:classappend="${paginaAtual == totalPaginas} ? 'disabled'">
+            <a class="page-link" th:href="@{/categorias/buscar(pagina=${paginaAtual + 1}, nome=${nomeBuscado})}">Próxima</a>
+          </li>
+        </ul>
+      </nav>
+
     </div>
-  </div>
+</div>
 </div>
 
 
