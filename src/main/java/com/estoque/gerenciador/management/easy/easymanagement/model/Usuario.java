@@ -1,7 +1,6 @@
 package com.estoque.gerenciador.management.easy.easymanagement.model;
 
 import com.estoque.gerenciador.management.easy.easymanagement.service.CodigoBarrasUtil;
-import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Type;

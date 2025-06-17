@@ -30,6 +30,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioMapper usuarioMapper;
 
+    @Autowired
+    private EmailService emailService;
+
     public void salvar(UsuarioDto dto){
         if (usuarioRepository.findByLogin(dto.getLogin()).isPresent()){
             throw new RegistroDuplicadoException("Já existe um usuario com esse nome.");
@@ -43,6 +46,11 @@ public class UsuarioService {
                 .orElseThrow(() -> new IllegalArgumentException("Grupo informado é inválido"));
 
         usuario.setGrupo(grupo);
+
+        if (dto.getEnviarEmail()){
+            var email = emailService.emailCadastroUsuario(dto.getEmail(), dto.getLogin(), dto.getSenha());
+            emailService.enviarEmail(email);
+        }
 
         usuarioRepository.save(usuario);
     }

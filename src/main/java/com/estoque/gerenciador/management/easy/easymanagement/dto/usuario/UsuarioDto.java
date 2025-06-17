@@ -28,4 +28,5 @@ public class UsuarioDto {
         String senha;
         @NotNull
         Long grupo;
+        Boolean enviarEmail;
 }
