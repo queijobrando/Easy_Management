@@ -51,10 +51,12 @@
                      style="cursor: pointer;">
                     <div>
                         <h5 th:text="${produto.nome}">Nome do Produto</h5>
-                        <p class="mb-0">
-                            ID: <span th:text="${produto.id}">1</span> |
-                            Categoria: <span th:text="${produto.categoria_nome}">Categoria</span> |
-                            Total em estoque: <span th:text="${produto.totalQuantidade}">0</span>
+                        <p class="mb-0 d-flex flex-wrap gap-2">
+                            <span class="info-badge id-badge">ID: <span th:text="${produto.id}">1</span></span>
+                            <span class="info-badge categoria-badge">Categoria: <span th:text="${produto.categoria_nome}">Categoria</span></span>
+                            <span class="info-badge" th:classappend="${produto.totalQuantidade == 0} ? 'estoque-zero-badge' : 'estoque-badge'">
+                                Total em estoque: <span th:text="${produto.totalQuantidade}">0</span>
+                            </span>
                         </p>
                     </div>
                     <i class="bi bi-chevron-down toggle-icon"></i>
@@ -98,7 +100,7 @@
                                 <div class="mt-2">
                                     <a href="/movimentacao/entrada/${lote.id}" class="btn btn-outline-success btn-sm me-2">Entrada</a>
                                     <a href="/movimentacao/saida/${lote.id}" class="btn btn-outline-warning btn-sm me-2">Saída</a>
-                                    <a href="/lotes/delete/${lote.id}" class="btn btn-outline-danger btn-sm">Excluir</a>
+                                    <a href="/lotes/delete/${lote.id}" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3-fill"></i></a>
                                 </div>
                             </div>
                         </div>

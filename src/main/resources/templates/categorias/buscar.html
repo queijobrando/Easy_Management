@@ -31,11 +31,15 @@
 
 <div class="content">
   <div class="container mt-4">
-    <div>
+    <div class="card p-4 shadow-sm">
       <h5 class="text-success">Categorias:</h5>
-      <form th:action="@{/categorias/buscar}" method="get" class="mb-4 d-flex">
-        <input type="text" name="nome" th:value="${nomeBuscado}" placeholder="Buscar por nome..." class="form-control me-2">
-        <button type="submit" class="btn btn-primary">Buscar</button>
+      <form th:action="@{/produtos/buscar}" method="get" class="mb-4 row g-2">
+        <div class="col-auto">
+          <input type="text" name="nome" th:value="${nomeBuscado}" placeholder="Buscar por nome..." class="form-control">
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
       </form>
       <table class="table table-hoover table-bordered table-striped mt-2">
         <tbody>

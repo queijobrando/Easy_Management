@@ -102,5 +102,39 @@ body {
         background-color: #198754;
         border-color: #198754;
         color: white;
-    }
+}
+
+.info-badge {
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* Azul para ID */
+.id-badge {
+    background-color: #e0f3ff;
+    color: #007bff;
+}
+
+/* Amarelo para Categoria */
+.categoria-badge {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* Verde para Estoque */
+.estoque-badge {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+/* Estoque zerado (preto) */
+.estoque-zero-badge {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+
 
